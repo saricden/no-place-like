@@ -14,7 +14,8 @@ const config = {
     BootScene,
     PreloaderScene,
     TitleScene
-  ]
+  ],
+  // pixelArt: true
 };
 
 const game = new Game(config);

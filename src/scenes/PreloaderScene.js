@@ -8,6 +8,9 @@ class PreloaderScene extends Scene {
   preload() {
     // Called first, used to load assets
     this.load.image('logo', 'assets/images/logo.png');
+    this.load.image('title-robo', 'assets/images/title-robo.png');
+    this.load.image('new-game-btn', 'assets/images/new-game-btn.png');
+    this.load.image('load-game-btn', 'assets/images/load-game-btn.png');
   }
 
   create() {
