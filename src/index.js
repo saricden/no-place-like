@@ -10,11 +10,19 @@ const config = {
   width: window.innerWidth,
   height: window.innerHeight,
   canvas,
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 400 },
+      debug: true //does nothing.
+    }
+  },
   scene: [
     BootScene,
     PreloaderScene,
     TitleScene
   ],
+  debug: true
   // pixelArt: true
 };
 

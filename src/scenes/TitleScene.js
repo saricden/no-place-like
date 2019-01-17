@@ -1,4 +1,4 @@
-import {Scene, GameObjects} from 'phaser';
+import {Scene} from 'phaser';
 
 class TitleScene extends Scene {
   constructor() {
@@ -23,6 +23,34 @@ class TitleScene extends Scene {
     const roboEndY = centerY;
 
     robo.setPosition(centerX, roboStartY);
+
+    // Configure the 'mist' gradient
+    const mistTexture = this.textures.createCanvas('mist-gradient', window.innerWidth, (robo.displayHeight / 2));
+    const mistSrc = mistTexture.getSourceImage();
+    const mistContext = mistSrc.getContext('2d');
+    const mistGradient = mistContext.createLinearGradient(0, 0, 0, (robo.displayHeight / 2));
+    mistGradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+    mistGradient.addColorStop(1, 'rgba(255, 255, 255, 1)');
+    mistContext.fillStyle = mistGradient;
+    mistContext.fillRect(0, 0, window.innerWidth, (robo.displayHeight / 2));
+
+    mistTexture.refresh();
+
+    // Place the 'mist' image
+    const mistX = 0;
+    const mistStartY = roboStartY;
+    const mistEndY = roboEndY;
+
+    const mistImage = this.add.image(mistX, mistStartY, "mist-gradient");
+    mistImage.setOrigin(0, 1);
+
+    // Place hill w/ person
+    const hill1StartY = (robo.displayHeight + centerY);
+    const hill1EndY = (centerY);
+    const hill1X = centerX;
+
+    const hill1 = this.add.image(hill1X, hill1StartY, 'title-hill1');
+    hill1.setScale(0.6);
 
     // Place logo
     const logoStartY = (window.innerHeight + robo.displayHeight - 200);
@@ -62,10 +90,28 @@ class TitleScene extends Scene {
     });
 
     this.tweens.add({
+      targets: mistImage,
+      y: mistEndY,
+      ease: 'Power1',
+      duration: 12000,
+      yoyo: false,
+      repeat: 0
+    });
+
+    this.tweens.add({
+      targets: hill1,
+      y: hill1EndY,
+      ease: 'Power1',
+      duration: 14000,
+      yoyo: false,
+      repeat: 0
+    });
+
+    this.tweens.add({
       targets: logo,
       y: logoEndY,
       ease: 'Power1',
-      duration: 14000,
+      duration: 15000,
       yoyo: false,
       repeat: 0
     });
@@ -74,7 +120,7 @@ class TitleScene extends Scene {
       targets: newGameBtn,
       y: newGameBtnEndY,
       ease: 'Power1',
-      duration: 14000,
+      duration: 15000,
       yoyo: false,
       repeat: 0
     });
@@ -83,7 +129,7 @@ class TitleScene extends Scene {
       targets: loadGameBtn,
       y: loadGameBtnEndY,
       ease: 'Power1',
-      duration: 14000,
+      duration: 15000,
       yoyo: false,
       repeat: 0
     });
