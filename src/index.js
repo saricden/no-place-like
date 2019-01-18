@@ -22,7 +22,6 @@ const config = {
     PreloaderScene,
     TitleScene
   ],
-  debug: true
   // pixelArt: true
 };
 

@@ -24,6 +24,8 @@ class TitleScene extends Scene {
 
     robo.setPosition(centerX, roboStartY);
 
+    console.log(this);
+
     // Configure the 'mist' gradient
     const mistTexture = this.textures.createCanvas('mist-gradient', window.innerWidth, (robo.displayHeight / 2));
     const mistSrc = mistTexture.getSourceImage();
