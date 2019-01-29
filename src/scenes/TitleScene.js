@@ -24,8 +24,6 @@ class TitleScene extends Scene {
 
     robo.setPosition(centerX, roboStartY);
 
-    console.log(this);
-
     // Configure the 'mist' gradient
     const mistTexture = this.textures.createCanvas('mist-gradient', window.innerWidth, (robo.displayHeight / 2));
     const mistSrc = mistTexture.getSourceImage();
@@ -68,9 +66,10 @@ class TitleScene extends Scene {
     const newGameBtnStartY = (window.innerHeight + robo.displayHeight - 175);
     const newGameBtnEndY = (window.innerHeight - 175);
     
-    const newGameBtn = this.add.image(uiX, newGameBtnStartY, 'new-game-btn');
+    const newGameBtn = this.physics.add.sprite(uiX, newGameBtnStartY, 'new-game-btn');
     newGameBtn.setOrigin(1, 0.5);
     newGameBtn.setScale(0.5);
+    newGameBtn.body.setAllowGravity(false);
 
     // Place load game button
     const loadGameBtnStartY = (window.innerHeight + robo.displayHeight - 90);
@@ -135,6 +134,14 @@ class TitleScene extends Scene {
       yoyo: false,
       repeat: 0
     });
+
+    // UI Functionality
+    newGameBtn.setInteractive();
+    newGameBtn.on('pointerdown', this.newGame.bind(this));
+  }
+
+  newGame() {
+    this.scene.start('africa-camp');
   }
 
 }

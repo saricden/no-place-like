@@ -12,6 +12,11 @@ class PreloaderScene extends Scene {
     this.load.image('new-game-btn', 'assets/images/new-game-btn.png');
     this.load.image('load-game-btn', 'assets/images/load-game-btn.png');
     this.load.image('title-hill1', 'assets/images/title-hill1.png');
+    this.load.image('dummy-platform', 'assets/images/dummy/dummy-platform.png');
+    this.load.spritesheet('guy', 'assets/images/dummy/guy.png', {
+      frameWidth: 50,
+      frameHeight: 100
+    });
 
     let loadingBar = this.add.graphics({
       fillStyle :{
@@ -26,7 +31,7 @@ class PreloaderScene extends Scene {
 
   create() {
     // Called after preload, used to initialize your scene
-    this.scene.start('title-scene');
+    this.scene.start('africa-camp');
   }
 
   // update() {

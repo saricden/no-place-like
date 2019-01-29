@@ -3,6 +3,7 @@ import Phaser, {Game} from 'phaser';
 import BootScene from './scenes/BootScene';
 import PreloaderScene from './scenes/PreloaderScene';
 import TitleScene from './scenes/TitleScene';
+import AfricaCampScene from './scenes/levels/AfricaCampScene';
 
 const canvas = document.getElementById('game-canvas');
 const config = {
@@ -14,13 +15,14 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { y: 400 },
-      debug: true //does nothing.
+      debug: true
     }
   },
   scene: [
     BootScene,
     PreloaderScene,
-    TitleScene
+    TitleScene,
+    AfricaCampScene
   ],
   // pixelArt: true
 };
