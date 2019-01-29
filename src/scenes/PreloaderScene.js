@@ -17,10 +17,10 @@ class PreloaderScene extends Scene {
       frameWidth: 50,
       frameHeight: 100
     });
-    this.load.spritesheet('mc-africa', 'assets/images/sprites/mc-africa.png', {
-      frameWidth: 87,
-      frameHeight: 102
-    });
+    //this.load.spritesheet('mc-africa', 'assets/images/sprites/mc-africa.png', {
+    //  frameWidth: 87,
+    //  frameHeight: 102
+    //});
 
     let loadingBar = this.add.graphics({
       fillStyle :{
@@ -35,7 +35,7 @@ class PreloaderScene extends Scene {
 
   create() {
     // Called after preload, used to initialize your scene
-    this.scene.start('africa-camp');
+    this.scene.start('title-scene');
   }
 
   // update() {
