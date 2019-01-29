@@ -14,9 +14,10 @@ class AfricaCampScene extends Scene {
     // Add some dummy platforms
     const platforms = this.physics.add.staticGroup();
     platforms.create((window.innerWidth / 2), (window.innerHeight / 2), 'dummy-platform');
-    platforms.create((window.innerWidth / 2) + 350, (window.innerHeight / 2), 'dummy-platform');
-    platforms.create((window.innerWidth / 2) - 350, (window.innerHeight / 2), 'dummy-platform');
-    platforms.create((window.innerWidth / 2) + 700, (window.innerHeight / 2) + 350, 'dummy-platform');
+    platforms.create((window.innerWidth / 2) + 450, (window.innerHeight / 2), 'dummy-platform');
+    platforms.create((window.innerWidth / 2) - 450, (window.innerHeight / 2), 'dummy-platform');
+    platforms.create((window.innerWidth / 2) + 900, (window.innerHeight / 2) + 150, 'dummy-platform');
+    platforms.create((window.innerWidth / 2) + 1350, (window.innerHeight / 2) + 250, 'dummy-platform');
 
     // Add our sprite to jump around on them
     this.mc = this.physics.add.sprite((window.innerWidth / 2), 0, 'guy');
@@ -54,6 +55,9 @@ class AfricaCampScene extends Scene {
 
     // Init arrow keys
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    // Set camera follow
+    this.cameras.main.startFollow(this.mc);
   }
 
   update() {

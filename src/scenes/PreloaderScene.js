@@ -17,6 +17,10 @@ class PreloaderScene extends Scene {
       frameWidth: 50,
       frameHeight: 100
     });
+    this.load.spritesheet('mc-africa', 'assets/images/sprites/mc-africa.png', {
+      frameWidth: 87,
+      frameHeight: 102
+    });
 
     let loadingBar = this.add.graphics({
       fillStyle :{
