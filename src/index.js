@@ -24,7 +24,7 @@ const config = {
     TitleScene,
     AfricaCampScene
   ],
-  // pixelArt: true
+  pixelArt: true
 };
 
 const game = new Game(config);

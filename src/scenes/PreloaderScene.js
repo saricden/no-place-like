@@ -17,8 +17,8 @@ class PreloaderScene extends Scene {
      frameWidth: 244,
      frameHeight: 287
     });
-    // this.load.image('basic-tiles', 'assets/images/tilemaps/basic.png');
-    // this.load.tilemapXML('africa-camp', 'assets/maps/africa-camp.xml');
+    this.load.image('basic-tiles', 'assets/images/tilemaps/basic.png');
+    this.load.tilemapTiledJSON('africa-camp-map', 'assets/maps/africa-camp.json');
 
 
     let loadingBar = this.add.graphics({
@@ -35,6 +35,7 @@ class PreloaderScene extends Scene {
   create() {
     // Called after preload, used to initialize your scene
     this.scene.start('title-scene');
+    // this.scene.start('africa-camp');
   }
 
   // update() {

@@ -13,20 +13,23 @@ class AfricaCampScene extends Scene {
   create() {
     // Set BG colour
     this.cameras.main.setBackgroundColor('#F3EBA6');
-    
-    // Add some dummy platforms
-    const platforms = this.physics.add.staticGroup();
-    platforms.create((window.innerWidth / 2), (window.innerHeight / 2), 'dummy-platform');
-    platforms.create((window.innerWidth / 2) + 450, (window.innerHeight / 2), 'dummy-platform');
-    platforms.create((window.innerWidth / 2) - 450, (window.innerHeight / 2), 'dummy-platform');
-    platforms.create((window.innerWidth / 2) + 900, (window.innerHeight / 2) + 150, 'dummy-platform');
-    platforms.create((window.innerWidth / 2) + 1350, (window.innerHeight / 2) + 250, 'dummy-platform');
 
     // Add our sprite to jump around on them
     this.mc = this.physics.add.sprite((window.innerWidth / 2), 0, 'mc-africa');
     this.mc.setBounce(0);
     this.mc.body.setSize(60, 260);
     this.mc.setScale(0.5);
+    
+    // Add our maaaaaaap!
+    const map = this.make.tilemap({ key: 'africa-camp-map', tileWidth: 100, tileHeight: 100 });
+    const tileset = map.addTilesetImage('Basic', 'basic-tiles');
+    
+    const aboveLayer = map.createStaticLayer('above-mc', tileset, 0, 0);
+    const solidLayer = map.createStaticLayer('solid', tileset, 0, 0);
+
+    // Map v MC collisions
+    solidLayer.setCollisionBetween(1, 10);
+    this.physics.add.collider(this.mc, solidLayer);
 
     // Setup sprite animations
     this.anims.create({
@@ -54,10 +57,6 @@ class AfricaCampScene extends Scene {
       repeat: -1
     });
 
-
-    // Setup collisions
-    this.physics.add.collider(this.mc, platforms);
-
     // Init arrow keys
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -80,8 +79,8 @@ class AfricaCampScene extends Scene {
     }
 
     // Player jump logic
-    if (this.cursors.up.isDown && this.mc.body.touching.down) {
-      this.mc.setVelocityY(-400);
+    if (this.cursors.up.isDown && this.mc.body.blocked.down) {
+      this.mc.setVelocityY(-500);
     }
 
     // Player animation logic  
