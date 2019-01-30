@@ -11,6 +11,9 @@ class AfricaCampScene extends Scene {
   }
 
   create() {
+    // Set BG colour
+    this.cameras.main.setBackgroundColor('#F3EBA6');
+    
     // Add some dummy platforms
     const platforms = this.physics.add.staticGroup();
     platforms.create((window.innerWidth / 2), (window.innerHeight / 2), 'dummy-platform');
@@ -20,32 +23,34 @@ class AfricaCampScene extends Scene {
     platforms.create((window.innerWidth / 2) + 1350, (window.innerHeight / 2) + 250, 'dummy-platform');
 
     // Add our sprite to jump around on them
-    this.mc = this.physics.add.sprite((window.innerWidth / 2), 0, 'guy');
+    this.mc = this.physics.add.sprite((window.innerWidth / 2), 0, 'mc-africa');
     this.mc.setBounce(0);
+    this.mc.body.setSize(60, 260);
+    this.mc.setScale(0.5);
 
     // Setup sprite animations
     this.anims.create({
       key: 'idle',
-      frames: this.anims.generateFrameNumbers('guy', {start: 0, end: 1}),
-      frameRate: 6,
+      frames: this.anims.generateFrameNumbers('mc-africa', {start: 0, end: 4}),
+      frameRate: 10,
       repeat: -1
     });
     this.anims.create({
       key: 'run',
-      frames: this.anims.generateFrameNumbers('guy', {start: 2, end: 3}),
-      frameRate: 6,
+      frames: this.anims.generateFrameNumbers('mc-africa', {start: 6, end: 22}),
+      frameRate: 18,
       repeat: -1
     });
     this.anims.create({
       key: 'up',
-      frames: this.anims.generateFrameNumbers('guy', {start: 4, end: 4}),
-      frameRate: 6,
+      frames: this.anims.generateFrameNumbers('mc-africa', {start: 24, end: 28}),
+      frameRate: 12,
       repeat: -1
     });
     this.anims.create({
       key: 'down',
-      frames: this.anims.generateFrameNumbers('guy', {start: 5, end: 5}),
-      frameRate: 6,
+      frames: this.anims.generateFrameNumbers('mc-africa', {start: 30, end: 32}),
+      frameRate: 12,
       repeat: -1
     });
 
@@ -64,9 +69,11 @@ class AfricaCampScene extends Scene {
     // Player left-right control logic
     if (this.cursors.left.isDown) {
       this.mc.setVelocityX(-this.mcSpeed);
+      this.mc.setFlipX(true);
     }
     else if (this.cursors.right.isDown) {
       this.mc.setVelocityX(this.mcSpeed);
+      this.mc.setFlipX(false);
     }
     else {
       this.mc.setVelocityX(0);
@@ -89,6 +96,11 @@ class AfricaCampScene extends Scene {
     }
     else {
       this.mc.anims.play('idle', true);
+    }
+
+    // Check if player falls too far, death reset
+    if (this.mc.y > 5000) {
+      this.scene.restart();
     }
   }
 }
