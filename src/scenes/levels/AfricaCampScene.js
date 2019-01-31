@@ -23,7 +23,7 @@ class AfricaCampScene extends Scene {
     this.input.addPointer(2);
 
     // Add our sprite to jump around on them
-    this.mc = this.physics.add.sprite((window.innerWidth / 2), 0, 'mc-africa');
+    this.mc = this.physics.add.sprite(500, 0, 'mc-africa');
     this.mc.setBounce(0);
     this.mc.body.setSize(60, 260);
     this.mc.setScale(0.5);
