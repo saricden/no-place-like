@@ -1,5 +1,9 @@
 import {Scene} from 'phaser';
 
+const edgeWidth = 60;
+const jumpHeight = 350;
+const nudgeThreshold = 30;
+
 class AfricaCampScene extends Scene {
 
   constructor() {
@@ -8,11 +12,15 @@ class AfricaCampScene extends Scene {
     this.cursors = false;
     this.mc = null;
     this.mcSpeed = 200;
+    this.pointer1DownY = null;
   }
 
   create() {
     // Set BG colour
     this.cameras.main.setBackgroundColor('#F3EBA6');
+
+    // Enable multi-touch
+    this.input.addPointer(2);
 
     // Add our sprite to jump around on them
     this.mc = this.physics.add.sprite((window.innerWidth / 2), 0, 'mc-africa');
@@ -65,25 +73,64 @@ class AfricaCampScene extends Scene {
   }
 
   update() {
-    // Player left-right control logic
-    if (this.cursors.left.isDown) {
-      this.mc.setVelocityX(-this.mcSpeed);
-      this.mc.setFlipX(true);
+    const touchingGround = this.mc.body.blocked.down;
+    const {pointer1, pointer2} = this.input;
+
+    /* COMPUTER CONTROLS
+    ------------------------------------------- */
+    if (touchingGround) {
+      // Player left-right control logic
+      if (this.cursors.left.isDown) {
+        this.mc.setVelocityX(-this.mcSpeed);
+        this.mc.setFlipX(true);
+      }
+      else if (this.cursors.right.isDown) {
+        this.mc.setVelocityX(this.mcSpeed);
+        this.mc.setFlipX(false);
+      }
+      else {
+        this.mc.setVelocityX(0);
+      }
+
+      // Player jump logic
+      if (this.cursors.up.isDown) {
+        this.mc.setVelocityY(-jumpHeight);
+      }
     }
-    else if (this.cursors.right.isDown) {
-      this.mc.setVelocityX(this.mcSpeed);
-      this.mc.setFlipX(false);
-    }
-    else {
-      this.mc.setVelocityX(0);
+
+    
+
+    /* TOUCH CONTROLS
+    ------------------------------------------- */
+    if (touchingGround && pointer1.isDown) {
+      // Player left-right control logic
+      const touchingLeftEdge = (pointer1.position.x <= edgeWidth);
+      const touchingRightEdge = (pointer1.position.x >= window.innerWidth - edgeWidth);
+
+      if (touchingLeftEdge) {
+        this.mc.setVelocityX(-this.mcSpeed);
+        this.mc.setFlipX(true);
+      }
+      else if (touchingRightEdge) {
+        this.mc.setVelocityX(this.mcSpeed);
+        this.mc.setFlipX(false);
+      }
+      else {
+        this.mc.setVelocityX(0);
+      }
+
+      // Player jump logic
+      const nudgeUp = ((this.pointer1DownY !== null) && (this.pointer1DownY - pointer1.position.y) > nudgeThreshold);
+
+      if (nudgeUp) {
+        this.mc.setVelocityY(-jumpHeight);
+      }
     }
 
     // Player jump logic
-    if (this.cursors.up.isDown && this.mc.body.blocked.down) {
-      this.mc.setVelocityY(-500);
-    }
 
-    // Player animation logic  
+    /* ANIMATION LOGIC
+    ------------------------------------------- */
     if (this.mc.body.velocity.y < 0) {
       this.mc.anims.play('up', true);
     }
@@ -100,6 +147,14 @@ class AfricaCampScene extends Scene {
     // Check if player falls too far, death reset
     if (this.mc.y > 5000) {
       this.scene.restart();
+    }
+
+    // Update our reference to the pointer's start Y
+    if (pointer1.isDown) {
+      this.pointer1DownY = pointer1.position.y;
+    }
+    else {
+      this.pointer1DownY = null;
     }
   }
 }
