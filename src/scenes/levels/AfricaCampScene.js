@@ -17,10 +17,17 @@ class AfricaCampScene extends Scene {
 
   create() {
     // Set BG colour
-    this.cameras.main.setBackgroundColor('#F3EBA6');
+    this.cameras.main.setBackgroundColor('#F3EBA6');    
 
     // Enable multi-touch
     this.input.addPointer(2);
+
+    // Add our maaaaaaap!
+    const map = this.make.tilemap({ key: 'africa-camp-map', tileWidth: 100, tileHeight: 100 });
+    const tileset = map.addTilesetImage('Basic', 'basic-tiles');
+    
+    // Behind sprite layer
+    map.createStaticLayer('behind-mc', tileset, 0, 0);    
 
     // Add our sprite to jump around on them
     this.mc = this.physics.add.sprite(500, 0, 'mc-africa');
@@ -28,15 +35,14 @@ class AfricaCampScene extends Scene {
     this.mc.body.setSize(60, 260);
     this.mc.setScale(0.5);
     
-    // Add our maaaaaaap!
-    const map = this.make.tilemap({ key: 'africa-camp-map', tileWidth: 100, tileHeight: 100 });
-    const tileset = map.addTilesetImage('Basic', 'basic-tiles');
-    
-    const aboveLayer = map.createStaticLayer('above-mc', tileset, 0, 0);
+    // Add map infront of MC
+    map.createStaticLayer('above-mc', tileset, 0, 0);
     const solidLayer = map.createStaticLayer('solid', tileset, 0, 0);
 
     // Map v MC collisions
-    solidLayer.setCollisionBetween(1, 10);
+    solidLayer.setCollisionBetween(1, 4);
+    solidLayer.setCollisionBetween(8, 11);
+    solidLayer.setCollisionBetween(15, 16);
     this.physics.add.collider(this.mc, solidLayer);
 
     // Setup sprite animations
@@ -64,6 +70,7 @@ class AfricaCampScene extends Scene {
       frameRate: 12,
       repeat: -1
     });
+
 
     // Init arrow keys
     this.cursors = this.input.keyboard.createCursorKeys();
