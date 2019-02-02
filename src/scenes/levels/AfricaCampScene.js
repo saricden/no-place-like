@@ -48,25 +48,25 @@ class AfricaCampScene extends Scene {
     // Setup sprite animations
     this.anims.create({
       key: 'idle',
-      frames: this.anims.generateFrameNumbers('mc-africa', {start: 0, end: 4}),
+      frames: this.anims.generateFrameNames('mc-africa', {prefix: 'idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
       frameRate: 10,
       repeat: -1
     });
     this.anims.create({
       key: 'run',
-      frames: this.anims.generateFrameNumbers('mc-africa', {start: 6, end: 22}),
+      frames: this.anims.generateFrameNames('mc-africa', {prefix: 'run/', start: 1, end: 16, zeroPad: 2, suffix: '.png'}),
       frameRate: 18,
       repeat: -1
     });
     this.anims.create({
       key: 'up',
-      frames: this.anims.generateFrameNumbers('mc-africa', {start: 24, end: 28}),
+      frames: this.anims.generateFrameNames('mc-africa', {prefix: 'up/', start: 1, end: 5, zeroPad: 2, suffix: '.png'}),
       frameRate: 12,
       repeat: -1
     });
     this.anims.create({
       key: 'down',
-      frames: this.anims.generateFrameNumbers('mc-africa', {start: 30, end: 32}),
+      frames: this.anims.generateFrameNames('mc-africa', {prefix: 'down/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
       frameRate: 12,
       repeat: -1
     });

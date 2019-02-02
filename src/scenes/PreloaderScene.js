@@ -13,10 +13,9 @@ class PreloaderScene extends Scene {
     this.load.image('load-game-btn', 'assets/images/load-game-btn.png');
     this.load.image('title-hill1', 'assets/images/title-hill1.png');
     this.load.image('dummy-platform', 'assets/images/dummy/dummy-platform.png');
-    this.load.spritesheet('mc-africa', 'assets/images/sprites/mc-africa.png', {
-     frameWidth: 244,
-     frameHeight: 287
-    });
+
+    this.load.multiatlas('mc-africa', 'assets/images/sprites/mc-africa/packed/mc-africa.json', 'assets/images/sprites/mc-africa/packed');
+
     this.load.image('basic-tiles', 'assets/images/tilemaps/basic.png');
     this.load.tilemapTiledJSON('africa-camp-map', 'assets/maps/africa-camp.json');
 
@@ -34,8 +33,8 @@ class PreloaderScene extends Scene {
 
   create() {
     // Called after preload, used to initialize your scene
-    this.scene.start('title-scene');
-    // this.scene.start('africa-camp');
+    //this.scene.start('title-scene');
+    this.scene.start('africa-camp');
   }
 
   // update() {
