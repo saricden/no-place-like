@@ -12,6 +12,7 @@ class AfricaCampScene extends Scene {
     this.cursors = false;
     this.mc = null;
     this.mcSpeed = 200;
+    this.mcVelocityX = 0;
     this.pointer1DownY = null;
   }
 
@@ -81,6 +82,7 @@ class AfricaCampScene extends Scene {
 
   update() {
     const touchingGround = this.mc.body.blocked.down;
+    const touchingWall = (this.mc.body.blocked.left || this.mc.body.blocked.right);
     const {pointer1, pointer2} = this.input;
 
     /* COMPUTER CONTROLS
@@ -103,6 +105,9 @@ class AfricaCampScene extends Scene {
       if (this.cursors.up.isDown) {
         this.mc.setVelocityY(-jumpHeight);
       }
+
+      // Persist X velocity
+      this.mcVelocityX = this.mc.body.velocity.x;
     }
 
     
@@ -134,7 +139,16 @@ class AfricaCampScene extends Scene {
       }
     }
 
-    // Player jump logic
+    
+    // Reduce X velocity when sliding along wall
+    if (touchingWall) {
+      this.mcVelocityX /= 1.1;
+    }
+
+    // Persist MC forward momentum when jumping up (like when you hit a wall)
+    if (this.mc.body.velocity.y < 0) {
+      this.mc.setVelocityX(this.mcVelocityX);
+    }
 
     /* ANIMATION LOGIC
     ------------------------------------------- */
