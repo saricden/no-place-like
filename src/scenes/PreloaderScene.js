@@ -33,8 +33,14 @@ class PreloaderScene extends Scene {
 
   create() {
     // Called after preload, used to initialize your scene
-    //this.scene.start('title-scene');
-    this.scene.start('africa-camp');
+    if (typeof process.env.NODE_ENV !== 'undefined' && process.env.NODE_ENV === 'development') {
+      // Replace this w/ whatever scene you're working on
+      this.scene.start('africa-camp');
+    }
+    else {
+      // In production start on the title screen
+      this.scene.start('title-scene');
+    }
   }
 
   // update() {
