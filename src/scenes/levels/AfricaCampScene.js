@@ -137,6 +137,9 @@ class AfricaCampScene extends Scene {
       if (nudgeUp) {
         this.mc.setVelocityY(-jumpHeight);
       }
+
+      // Persist X velocity
+      this.mcVelocityX = this.mc.body.velocity.x;
     }
 
     
