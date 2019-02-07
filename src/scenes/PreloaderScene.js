@@ -18,7 +18,9 @@ class PreloaderScene extends Scene {
 
     this.load.image('basic-tiles', 'assets/images/tilemaps/basic.png');
     this.load.tilemapTiledJSON('africa-camp-map', 'assets/maps/africa-camp.json');
+    this.load.tilemapTiledJSON('test-map', 'assets/maps/test-map.json');
 
+    this.load.spritesheet('pink-portal', 'assets/images/sprites/tiles/pink-portal.png', { frameWidth: 100, frameHeight: 100 })
 
     let loadingBar = this.add.graphics({
       fillStyle :{
