@@ -30,7 +30,7 @@ class PC extends Sprite {
     this.scene.anims.create({
       key: 'idle',
       frames: this.scene.anims.generateFrameNames('mc-africa', {prefix: 'idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
-      frameRate: 10,
+      frameRate: 3,
       repeat: -1
     });
     this.scene.anims.create({
@@ -48,7 +48,7 @@ class PC extends Sprite {
     this.scene.anims.create({
       key: 'down',
       frames: this.scene.anims.generateFrameNames('mc-africa', {prefix: 'down/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
-      frameRate: 12,
+      frameRate: 8,
       repeat: -1
     });
 

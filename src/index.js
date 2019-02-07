@@ -3,7 +3,10 @@ import Phaser, {Game} from 'phaser';
 import BootScene from './scenes/BootScene';
 import PreloaderScene from './scenes/PreloaderScene';
 import TitleScene from './scenes/TitleScene';
-import AfricaCampScene from './scenes/levels/AfricaCampScene';
+
+// Levels
+import AfricaCampLevel from './scenes/levels/AfricaCampLevel';
+import TestLevel from './scenes/levels/TestLevel';
 
 const canvas = document.getElementById('game-canvas');
 const config = {
@@ -22,7 +25,8 @@ const config = {
     BootScene,
     PreloaderScene,
     TitleScene,
-    AfricaCampScene
+    AfricaCampLevel,
+    TestLevel
   ],
   pixelArt: true
 };
