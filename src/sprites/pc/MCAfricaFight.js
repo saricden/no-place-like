@@ -1,9 +1,9 @@
 import {GameObjects} from 'phaser';
 import {ui} from '../../config';
-const {Sprite} = GameObjects;
+const {Container} = GameObjects;
 const {edgeWidth, nudgeThreshold} = ui;
 
-class MCAfrica extends Sprite {
+class MCAfricaFight extends Container {
   constructor(config) {
     super(config.scene, config.x, config.y, config.key);
 
@@ -11,7 +11,7 @@ class MCAfrica extends Sprite {
     config.scene.physics.world.enable(this);
     config.scene.add.existing(this);
 
-    this.setTexture('mc-africa');
+    this.setTexture('mc-africa-noarms');
 
     // Config
     this.speed = 200;
@@ -25,6 +25,21 @@ class MCAfrica extends Sprite {
     this.body.setBounce(0);
     this.body.setSize(60, 260);
     this.setScale(0.5);
+
+    this.mcArmLeft = this.add.image(0, 500, 'mc-africa-gun-arm-left');
+    this.mcArmRight = this.add.image(0, 500, 'mc-africa-gun-arm-right');
+    this.mcCore = new MCClass({
+      key: 'mc',
+      scene: this,
+      x: 500,
+      y: 0
+    });
+    
+    this.mc = this.physics.add.container(500, 0, [
+      this.mcArmLeft,
+      this.mcCore,
+      this.mcArmRight
+    ]);
 
     // Init arrow keys
     this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -107,16 +122,16 @@ class MCAfrica extends Sprite {
     /* ANIMATION LOGIC
     ------------------------------------------- */
     if (this.body.velocity.y < 0) {
-      this.anims.play('up', true);
+      this.anims.play('up-noarms', true);
     }
     else if (this.body.velocity.y > 0) {
-      this.anims.play('down', true);
+      this.anims.play('down-noarms', true);
     }
     else if (this.body.velocity.x !== 0) {
-      this.anims.play('run', true);
+      this.anims.play('run-noarms', true);
     }
     else {
-      this.anims.play('idle', true);
+      this.anims.play('idle-noarms', true);
     }
 
     // Check if player falls too far, death reset
@@ -135,4 +150,4 @@ class MCAfrica extends Sprite {
   
 }
 
-export default MCAfrica;
+export default MCAfricaFight;

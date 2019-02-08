@@ -1,0 +1,104 @@
+{
+	"textures": [
+		{
+			"image": "bolt-pistol.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 476,
+				"h": 964
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "idle/02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 500,
+						"h": 250
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 0,
+						"w": 474,
+						"h": 240
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 474,
+						"h": 240
+					}
+				},
+				{
+					"filename": "idle/03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 500,
+						"h": 250
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 0,
+						"w": 474,
+						"h": 240
+					},
+					"frame": {
+						"x": 1,
+						"y": 243,
+						"w": 474,
+						"h": 240
+					}
+				},
+				{
+					"filename": "idle/04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 500,
+						"h": 250
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 0,
+						"w": 474,
+						"h": 240
+					},
+					"frame": {
+						"x": 1,
+						"y": 485,
+						"w": 474,
+						"h": 240
+					}
+				},
+				{
+					"filename": "idle/01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 500,
+						"h": 250
+					},
+					"spriteSourceSize": {
+						"x": 21,
+						"y": 4,
+						"w": 474,
+						"h": 236
+					},
+					"frame": {
+						"x": 1,
+						"y": 727,
+						"w": 474,
+						"h": 236
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:fe765235dbca83bb8741dfaf05fcbf3e:26ea68e27038525df61c87a26e7364b0:908ce49ff7f8d43008b9a574eb2949c1$"
+	}
+}
