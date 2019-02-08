@@ -3,7 +3,7 @@ import {ui} from '../../config';
 const {Sprite} = GameObjects;
 const {edgeWidth, nudgeThreshold} = ui;
 
-class PC extends Sprite {
+class MCAfrica extends Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.key);
 
@@ -161,4 +161,4 @@ class PC extends Sprite {
   
 }
 
-export default PC;
+export default MCAfrica;
