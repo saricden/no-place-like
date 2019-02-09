@@ -17,8 +17,8 @@ class PreloaderScene extends Scene {
     this.load.image('mc-africa-gun-arm-right', 'assets/images/sprites/mc-africa/gun-arm-right.png');
 
     this.load.multiatlas('mc-africa', 'assets/images/sprites/mc-africa/packed/mc-africa.json', 'assets/images/sprites/mc-africa/packed');
-    this.load.multiatlas('mc-africa-noarms', 'assets/images/sprites/mc-africa/packed-noarms/mc-africa.json', 'assets/images/sprites/mc-africa/packed-noarms');
-    this.load.multiatlas('bolt-pistol', 'assets/images/sprites/bolt-pistol/packed/bolt-pistol.json', 'assets/images/sprites/bolt-pistol/packed/bolt-pistol');
+    this.load.multiatlas('mc-africa-noarms', 'assets/images/sprites/mc-africa-noarms/packed/mc-africa-noarms.json', 'assets/images/sprites/mc-africa-noarms/packed');
+    this.load.multiatlas('bolt-pistol', 'assets/images/sprites/bolt-pistol/packed/bolt-pistol.json', 'assets/images/sprites/bolt-pistol/packed');
 
     this.load.image('basic-tiles', 'assets/images/tilemaps/basic.png');
     this.load.tilemapTiledJSON('africa-camp-map', 'assets/maps/africa-camp.json');
@@ -38,7 +38,9 @@ class PreloaderScene extends Scene {
   }
 
   create() {
-    // Create animations
+    /* CREATE ANIMATIONS
+    ------------------------------ */
+    // MCAfrica
     this.anims.create({
       key: 'idle',
       frames: this.anims.generateFrameNames('mc-africa', {prefix: 'idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
@@ -64,6 +66,7 @@ class PreloaderScene extends Scene {
       repeat: -1
     });
 
+    // MCAfrica (noarms)
     this.anims.create({
       key: 'idle-noarms',
       frames: this.anims.generateFrameNames('mc-africa-noarms', {prefix: 'idle/', start: 1, end: 5, zeroPad: 2, suffix: '.png'}),
@@ -89,12 +92,13 @@ class PreloaderScene extends Scene {
       repeat: -1
     });
 
-    // this.anims.create({
-    //   key: 'bolt-pistol-idle',
-    //   frame: this.anims.generateFrameNames('bolt-pistol', {prefix: 'idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
-    //   frameRate: 4,
-    //   repeat: -1
-    // });
+    // Bolt pistol
+    this.anims.create({
+      key: 'bolt-pistol-idle',
+      frame: this.anims.generateFrameNames('bolt-pistol', {prefix: 'idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
+      frameRate: 4,
+      repeat: -1
+    });
 
     // Called after preload, used to initialize your scene
     if (typeof process.env.NODE_ENV !== 'undefined' && process.env.NODE_ENV === 'development') {

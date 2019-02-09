@@ -5,13 +5,31 @@ const {edgeWidth, nudgeThreshold} = ui;
 
 class MCAfricaFight extends Container {
   constructor(config) {
-    super(config.scene, config.x, config.y, config.key);
+    const bodyWidth = 60;
+    const bodyHeight = 260;
+    const core = config.scene.add.sprite((bodyWidth / 2), (bodyHeight / 2), 'mc-africa-noarms');
+    const mcArmLeft = config.scene.add.image((bodyWidth / 2 - 6), 80, 'mc-africa-gun-arm-left');
+    const mcArmRight = config.scene.add.image((bodyWidth / 2 - 6), 80, 'mc-africa-gun-arm-right');
+    const boltPistol = config.scene.add.sprite(0, 0, 'bolt-pistol');
+
+    boltPistol.setScale(0.18);
+    boltPistol.setOrigin(-1.75, 0.6);
+    boltPistol.setRotation((Math.PI / 2.17));
+    mcArmLeft.setOrigin(0.6, 0.15);
+    mcArmRight.setOrigin(0.6, 0.15);
+
+    super(config.scene, config.x, config.y, [
+      mcArmLeft,
+      core,
+      boltPistol,
+      mcArmRight
+    ]);
+
+    config.scene.add.container(this);
 
     // Add self to scene's physics
     config.scene.physics.world.enable(this);
     config.scene.add.existing(this);
-
-    this.setTexture('mc-africa-noarms');
 
     // Config
     this.speed = 200;
@@ -23,23 +41,16 @@ class MCAfricaFight extends Container {
 
     // Setup physics properties
     this.body.setBounce(0);
-    this.body.setSize(60, 260);
+    this.body.setSize(bodyWidth, bodyHeight);
     this.setScale(0.5);
 
-    this.mcArmLeft = this.add.image(0, 500, 'mc-africa-gun-arm-left');
-    this.mcArmRight = this.add.image(0, 500, 'mc-africa-gun-arm-right');
-    this.mcCore = new MCClass({
-      key: 'mc',
-      scene: this,
-      x: 500,
-      y: 0
-    });
-    
-    this.mc = this.physics.add.container(500, 0, [
-      this.mcArmLeft,
-      this.mcCore,
-      this.mcArmRight
-    ]);
+    // Setup variables for use in update()
+    this.core = core;
+    this.mcArmLeft = mcArmLeft;
+    this.mcArmRight = mcArmRight;
+    this.boltPistol = boltPistol;
+    this.bodyWidth = bodyWidth;
+    this.bodyHeight = bodyHeight;
 
     // Init arrow keys
     this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -49,6 +60,7 @@ class MCAfricaFight extends Container {
     const touchingGround = this.body.blocked.down;
     const touchingWall = (this.body.blocked.left || this.body.blocked.right);
     const {pointer1, pointer2} = this.scene.input;
+    const {mousePointer} = this.scene.input;
     const {left, right, up} = this.cursors;
 
     /* COMPUTER CONTROLS
@@ -57,11 +69,11 @@ class MCAfricaFight extends Container {
       // Player left-right control logic
       if (left.isDown) {
         this.body.setVelocityX(-this.speed);
-        this.setFlipX(true);
+        // this.setFlipX(true);
       }
       else if (right.isDown) {
         this.body.setVelocityX(this.speed);
-        this.setFlipX(false);
+        // this.setFlipX(false);
       }
       else {
         this.body.setVelocityX(0);
@@ -76,7 +88,9 @@ class MCAfricaFight extends Container {
       this.persistentVelocityX = this.body.velocity.x;
     }
 
-    
+    const spriteCenterX = ((window.innerWidth / 2) + (this.bodyWidth / 4));
+    const spriteCenterY = ((window.innerHeight / 2) + (this.bodyHeight / 4));
+    console.log(spriteCenterX - mousePointer.x, spriteCenterY - mousePointer.y);
 
     /* TOUCH CONTROLS
     ------------------------------------------- */
@@ -122,17 +136,20 @@ class MCAfricaFight extends Container {
     /* ANIMATION LOGIC
     ------------------------------------------- */
     if (this.body.velocity.y < 0) {
-      this.anims.play('up-noarms', true);
+      this.core.anims.play('up-noarms', true);
     }
     else if (this.body.velocity.y > 0) {
-      this.anims.play('down-noarms', true);
+      this.core.anims.play('down-noarms', true);
     }
     else if (this.body.velocity.x !== 0) {
-      this.anims.play('run-noarms', true);
+      this.core.anims.play('run-noarms', true);
     }
     else {
-      this.anims.play('idle-noarms', true);
+      this.core.anims.play('idle-noarms', true);
     }
+
+    // TODO (bugfix): Trying to play a boltPistol animation errors
+    // this.boltPistol.anims.play('bolt-pistol-idle', true);
 
     // Check if player falls too far, death reset
     if (this.y > 5000) {
