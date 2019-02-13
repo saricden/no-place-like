@@ -132,7 +132,7 @@
             <key>json</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>bolt-pistol.json</filename>
+                <filename>bolt-pistol2.json</filename>
             </struct>
         </map>
         <key>multiPack</key>

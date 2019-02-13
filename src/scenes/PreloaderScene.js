@@ -13,12 +13,13 @@ class PreloaderScene extends Scene {
     this.load.image('load-game-btn', 'assets/images/load-game-btn.png');
     this.load.image('title-hill1', 'assets/images/title-hill1.png');
     this.load.image('dummy-platform', 'assets/images/dummy/dummy-platform.png');
+    this.load.image('dummy-projectile', 'assets/images/dummy/dummy-projectile.png');
     this.load.image('mc-africa-gun-arm-left', 'assets/images/sprites/mc-africa/gun-arm-left.png');
     this.load.image('mc-africa-gun-arm-right', 'assets/images/sprites/mc-africa/gun-arm-right.png');
 
     this.load.multiatlas('mc-africa', 'assets/images/sprites/mc-africa/packed/mc-africa.json', 'assets/images/sprites/mc-africa/packed');
     this.load.multiatlas('mc-africa-noarms', 'assets/images/sprites/mc-africa-noarms/packed/mc-africa-noarms.json', 'assets/images/sprites/mc-africa-noarms/packed');
-    this.load.multiatlas('bolt-pistol', 'assets/images/sprites/bolt-pistol/packed/bolt-pistol.json', 'assets/images/sprites/bolt-pistol/packed');
+    this.load.multiatlas('bolt-pistol2', 'assets/images/sprites/bolt-pistol2/packed/bolt-pistol2.json', 'assets/images/sprites/bolt-pistol2/packed');
 
     this.load.image('basic-tiles', 'assets/images/tilemaps/basic.png');
     this.load.tilemapTiledJSON('africa-camp-map', 'assets/maps/africa-camp.json');
@@ -95,7 +96,7 @@ class PreloaderScene extends Scene {
     // Bolt pistol
     this.anims.create({
       key: 'bolt-pistol-idle',
-      frame: this.anims.generateFrameNames('bolt-pistol', {prefix: 'idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
+      frame: this.anims.generateFrameNames('bolt-pistol2', {prefix: 'bolt-pistol-idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
       frameRate: 4,
       repeat: -1
     });
