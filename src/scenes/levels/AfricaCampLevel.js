@@ -1,5 +1,6 @@
 import Level from './base/Level';
 import {Geom} from 'phaser';
+import MCAfricaFight from '../../sprites/pc/MCAfricaFight';
 
 const {Intersects} = Geom;
 
@@ -20,7 +21,9 @@ class AfricaCampLevel extends Level {
   }
 
   create() {
-    this.initScene({}); // AfricaCamp is the default level.
+    this.initScene({
+      MCClass: MCAfricaFight
+    }); // AfricaCamp is the default level.
 
     this.anims.create({
       key: 'burn',

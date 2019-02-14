@@ -7,10 +7,10 @@ class Level extends Scene {
     this.cameras.main.setBackgroundColor(bgColor);
     this.cameras.main.setRoundPixels(true); // seems to solve the janky lines ¯\_(ツ)_/¯
 
-    // // Enable multi-touch
+    // Enable multi-touch
     this.input.addPointer(2);
 
-    // // Add our sprite to jump around on them
+    // Add our sprite to jump around on them
     this.mc = new MCClass({
       key: 'mc',
       scene: this,
