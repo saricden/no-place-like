@@ -61,10 +61,11 @@ class MCAfricaFight extends Container {
       speed: { min: 400, max: 600 },
       angle: 330,
       gravityY: 300,
-      scale: { start: 0.4, end: 0 },
-      quantity: 2
+      scale: { start: 0, end: 0.4 },
+      quantity: 1
       // blendMode: 'ADD'
     });
+    this.bulletEmitter.setRadial(true);
 
     // Setup variables for use in update()
     this.core = core;
@@ -77,6 +78,7 @@ class MCAfricaFight extends Container {
     this.boltPistolOffsetLeft = boltPistolOffsetLeft;
     this.mcArmsOffsetRight = mcArmsOffsetRight;
     this.mcArmsOffsetLeft = mcArmsOffsetLeft;
+    this.bullets = bullets;
 
     // Init arrow keys
     this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -133,6 +135,8 @@ class MCAfricaFight extends Container {
           child.setFlipY(true);
         }
       });
+
+      this.bulletEmitter.setAngle(-((rad * 180 / Math.PI) + 90));
     }
     else {
       this.mcArmLeft.setRotation(-rad - this.mcArmsOffsetRight);
@@ -146,17 +150,17 @@ class MCAfricaFight extends Container {
           child.setFlipY(false);
         }
       });
+
+      this.bulletEmitter.setAngle(-((rad * 180 / Math.PI) + 82));
     }
 
     // Gun projectile logic (dummy)
     if (mousePointer.isDown) {
-      // const newBullet = this.scene.physics.add.sprite(this.x, this.y, 'dummy-projectile');
-      // newBullet.setScale(0.25, 0.25);
-      // newBullet.setPosition(this.x + (this.boltPistol.x / 2), this.y + (this.boltPistol.y / 2));
-      // newBullet.setRotation(-rad);
-
-      // this.bulletContainer.add(newBullet);
-      this.bulletEmitter.setPosition(this.x, this.y);
+      this.bulletEmitter.setPosition(this.x + (this.boltPistol.x / 2), this.y + (this.boltPistol.y / 2));
+      this.bulletEmitter.start();
+    }
+    else {
+      this.bulletEmitter.stop();
     }
     
 
