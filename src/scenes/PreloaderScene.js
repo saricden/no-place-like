@@ -20,6 +20,7 @@ class PreloaderScene extends Scene {
     this.load.multiatlas('mc-africa', 'assets/images/sprites/mc-africa/packed/mc-africa.json', 'assets/images/sprites/mc-africa/packed');
     this.load.multiatlas('mc-africa-noarms', 'assets/images/sprites/mc-africa-noarms/packed/mc-africa-noarms.json', 'assets/images/sprites/mc-africa-noarms/packed');
     this.load.multiatlas('bolt-pistol2', 'assets/images/sprites/bolt-pistol2/packed/bolt-pistol2.json', 'assets/images/sprites/bolt-pistol2/packed');
+    this.load.multiatlas('jump-blaster', 'assets/images/sprites/jump-blaster/packed/jump-blaster.json', 'assets/images/sprites/jump-blaster/packed');
 
     this.load.image('basic-tiles', 'assets/images/tilemaps/basic.png');
     this.load.tilemapTiledJSON('africa-camp-map', 'assets/maps/africa-camp.json');
@@ -93,10 +94,26 @@ class PreloaderScene extends Scene {
       repeat: -1
     });
 
+    // Burning portal thing tile animation create mmkay
+    this.anims.create({
+      key: 'burn',
+      frames: this.anims.generateFrameNames('pink-portal', { start: 0, end: 2 }),
+      frameRate: 12,
+      repeat: -1
+    });
+
     // Bolt pistol
     this.anims.create({
       key: 'bolt-pistol-idle',
       frame: this.anims.generateFrameNames('bolt-pistol2', {prefix: 'bolt-pistol-idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
+      frameRate: 4,
+      repeat: -1
+    });
+
+    // Jump blasta
+    this.anims.create({
+      key: 'jump',
+      frame: this.anims.generateFrameNames('jump-blaster', {prefix: 'jump/', start: 1, end: 3, zeroPad: 2, suffix: '.png'}),
       frameRate: 4,
       repeat: -1
     });

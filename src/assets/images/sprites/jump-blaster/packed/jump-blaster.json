@@ -1,0 +1,83 @@
+{
+	"textures": [
+		{
+			"image": "jump-blaster.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1882,
+				"h": 1636
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "jump/02.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 939,
+						"h": 848
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 939,
+						"h": 848
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 939,
+						"h": 848
+					}
+				},
+				{
+					"filename": "jump/03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 939,
+						"h": 848
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 939,
+						"h": 845
+					},
+					"frame": {
+						"x": 942,
+						"y": 1,
+						"w": 939,
+						"h": 845
+					}
+				},
+				{
+					"filename": "jump/01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 939,
+						"h": 848
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 939,
+						"h": 787
+					},
+					"frame": {
+						"x": 942,
+						"y": 848,
+						"w": 939,
+						"h": 787
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:2c4ed38c27a4efbaf9f7d11bec0366d0:b8a72dd92990d443e16164767ac5c44d:023e5b7e18a7247f5b2b70fdc846e928$"
+	}
+}
