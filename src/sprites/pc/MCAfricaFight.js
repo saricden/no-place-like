@@ -191,6 +191,11 @@ class MCAfricaFight extends Container {
         const dY = (pointer2.y - pointer1.y);
         this.touchRad = Math.atan2(dX, dY);
         this.aim(this.touchRad);
+        this.bulletEmitter.setPosition(this.x + (this.boltPistol.x / 2), this.y + (this.boltPistol.y / 2));
+        this.bulletEmitter.start();
+      }
+      else {
+        this.bulletEmitter.stop();
       }
     }
     else {
