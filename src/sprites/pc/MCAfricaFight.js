@@ -4,6 +4,24 @@ const {Container} = GameObjects;
 const {edgeWidth, nudgeThreshold} = ui;
 
 class MCAfricaFight extends Container {
+  setFlipX(flip) {
+    this.list.forEach((child) => { 
+      if (!child.isGun) {
+        child.setFlipX(flip);
+      }
+      else {
+        child.setFlipY(flip);
+      }
+    });
+  }
+
+  aim(rad) {
+    this.mcArmLeft.setRotation(-rad - this.mcArmsOffsetLeft);
+    this.mcArmRight.setRotation(-rad - this.mcArmsOffsetLeft);
+    this.boltPistol.setRotation(-rad - this.boltPistolOffsetLeft);
+    this.bulletEmitter.setAngle(-((rad * 180 / Math.PI) + 82));
+  }
+
   constructor(config) {
     const bodyWidth = 60;
     const bodyHeight = 260;
@@ -79,6 +97,8 @@ class MCAfricaFight extends Container {
     this.mcArmsOffsetRight = mcArmsOffsetRight;
     this.mcArmsOffsetLeft = mcArmsOffsetLeft;
     this.bullets = bullets;
+    this.lastPointerTouch = false;
+    this.touchRad = (Math.PI / 2);
 
     // Init arrow keys
     this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -90,6 +110,14 @@ class MCAfricaFight extends Container {
     const {pointer1, pointer2} = this.scene.input;
     const {mousePointer} = this.scene.input;
     const {left, right, up} = this.cursors;
+    const bothPointersDown = (pointer1.isDown && pointer2.isDown);
+
+    if (pointer1.isDown) {
+      this.lastPointerTouch = true;
+    }
+    else if (mousePointer.isDown) {
+      this.lastPointerTouch = false;
+    }
 
     /* COMPUTER CONTROLS
     ------------------------------------------- */
@@ -114,56 +142,6 @@ class MCAfricaFight extends Container {
       this.persistentVelocityX = this.body.velocity.x;
     }
 
-    // Aim gun at the mouse
-    const spriteCenterX = ((window.innerWidth / 2) + (this.bodyWidth / 4));
-    const spriteCenterY = ((window.innerHeight / 2) + (this.bodyHeight / 4));
-    
-    const dX = (spriteCenterX - mousePointer.x);
-    const dY = (spriteCenterY - mousePointer.y);
-    const rad = Math.atan2(dX, dY);
-
-    // Flip character to face mouse
-    if (mousePointer.x < spriteCenterX) {
-      this.mcArmLeft.setRotation(-rad - this.mcArmsOffsetLeft);
-      this.mcArmRight.setRotation(-rad - this.mcArmsOffsetLeft);
-      this.boltPistol.setRotation(-rad - this.boltPistolOffsetLeft);
-      this.list.forEach((child) => { 
-        if (!child.isGun) {
-          child.setFlipX(true);
-        }
-        else {
-          child.setFlipY(true);
-        }
-      });
-
-      this.bulletEmitter.setAngle(-((rad * 180 / Math.PI) + 90));
-    }
-    else {
-      this.mcArmLeft.setRotation(-rad - this.mcArmsOffsetRight);
-      this.mcArmRight.setRotation(-rad - this.mcArmsOffsetRight);
-      this.boltPistol.setRotation(-rad - this.boltPistolOffsetRight);
-      this.list.forEach((child) => {
-        if (!child.isGun) {
-          child.setFlipX(false);
-        }
-        else {
-          child.setFlipY(false);
-        }
-      });
-
-      this.bulletEmitter.setAngle(-((rad * 180 / Math.PI) + 82));
-    }
-
-    // Gun projectile logic (dummy)
-    if (mousePointer.isDown) {
-      this.bulletEmitter.setPosition(this.x + (this.boltPistol.x / 2), this.y + (this.boltPistol.y / 2));
-      this.bulletEmitter.start();
-    }
-    else {
-      this.bulletEmitter.stop();
-    }
-    
-
     /* TOUCH CONTROLS
     ------------------------------------------- */
     if (touchingGround && pointer1.isDown) {
@@ -173,11 +151,9 @@ class MCAfricaFight extends Container {
 
       if (touchingLeftEdge) {
         this.body.setVelocityX(-this.speed);
-        this.setFlipX(true);
       }
       else if (touchingRightEdge) {
         this.body.setVelocityX(this.speed);
-        this.setFlipX(false);
       }
       else {
         this.body.setVelocityX(0);
@@ -194,6 +170,53 @@ class MCAfricaFight extends Container {
       this.persistentVelocityX = this.body.velocity.x;
     }
 
+    // Aim gun at the mouse
+    const spriteCenterX = ((window.innerWidth / 2) + (this.bodyWidth / 4));
+    const spriteCenterY = ((window.innerHeight / 2) + (this.bodyHeight / 4));
+
+    // Flip character to face mouse
+    if (this.lastPointerTouch) {
+      // Handle touch point n shoot controls
+      if (pointer1.x < spriteCenterX) {
+        this.setFlipX(true);
+        this.aim(this.touchRad);
+      }
+      else {
+        this.setFlipX(false);
+        this.aim(-this.touchRad);
+      }
+
+      if (bothPointersDown) {
+        const dX = (pointer2.x - pointer1.x);
+        const dY = (pointer2.y - pointer1.y);
+        this.touchRad = Math.atan2(dX, dY);
+        this.aim(this.touchRad);
+      }
+    }
+    else {
+      // Handle desktop point n shoot controls
+      const dX = (spriteCenterX - mousePointer.x);
+      const dY = (spriteCenterY - mousePointer.y);
+      const rad = Math.atan2(dX, dY);
+
+      if (mousePointer.x < spriteCenterX) {
+        this.aim(rad);
+        this.setFlipX(true);
+      }
+      else {
+        this.aim(rad);
+        this.setFlipX(false);
+      }
+
+      // Gun projectile logic (dummy)
+      if (mousePointer.isDown) {
+        this.bulletEmitter.setPosition(this.x + (this.boltPistol.x / 2), this.y + (this.boltPistol.y / 2));
+        this.bulletEmitter.start();
+      }
+      else {
+        this.bulletEmitter.stop();
+      }
+    }
     
     // Reduce X velocity when sliding along wall
     if (touchingWall) {
