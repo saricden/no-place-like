@@ -4,9 +4,9 @@
   "description": "A game with gigantic robots!",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
-    "build": "webpack --mode production --output ./dist/game.js",
-    "dev": "webpack --mode development --output ./dist/game.js"
+    "start": "webpack-dev-server --mode development --entry ./src/game.js --open",
+    "build": "webpack --mode production --entry ./src/game.js --output ./dist/game.js",
+    "dev": "webpack --mode development --entry ./src/game.js --output ./dist/game.js"
   },
   "repository": {
     "type": "git",
