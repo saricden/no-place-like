@@ -176,21 +176,23 @@ class MCAfricaFight extends Container {
 
     // Flip character to face mouse
     if (this.lastPointerTouch) {
+      // Aiming
+      const dX = (spriteCenterX - pointer1.x);
+      const dY = (spriteCenterY - pointer1.y);
+      this.touchRad = Math.atan2(dX, dY);
+      this.aim(this.touchRad);
+
       // Handle touch point n shoot controls
       if (pointer1.x < spriteCenterX) {
         this.setFlipX(true);
-        this.aim(this.touchRad);
+        // this.aim(this.touchRad);
       }
       else {
         this.setFlipX(false);
-        this.aim(-this.touchRad);
+        // this.aim(-this.touchRad);
       }
 
       if (bothPointersDown) {
-        const dX = (pointer2.x - pointer1.x);
-        const dY = (pointer2.y - pointer1.y);
-        this.touchRad = Math.atan2(dX, dY);
-        this.aim(this.touchRad);
         this.bulletEmitter.setPosition(this.x + (this.boltPistol.x / 2), this.y + (this.boltPistol.y / 2));
         this.bulletEmitter.start();
       }
@@ -203,13 +205,12 @@ class MCAfricaFight extends Container {
       const dX = (spriteCenterX - mousePointer.x);
       const dY = (spriteCenterY - mousePointer.y);
       const rad = Math.atan2(dX, dY);
+      this.aim(rad);
 
       if (mousePointer.x < spriteCenterX) {
-        this.aim(rad);
         this.setFlipX(true);
       }
       else {
-        this.aim(rad);
         this.setFlipX(false);
       }
 
