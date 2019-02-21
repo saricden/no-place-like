@@ -5,7 +5,8 @@ const {edgeWidth, nudgeThreshold} = ui;
 
 class MCAfricaFight extends Container {
   setFlipX(flip) {
-    this.list.forEach((child) => { 
+    this.flipX = flip;
+    this.list.forEach((child) => {
       if (!child.isGun) {
         child.setFlipX(flip);
       }
@@ -16,10 +17,34 @@ class MCAfricaFight extends Container {
   }
 
   aim(rad) {
-    this.mcArmLeft.setRotation(-rad - this.mcArmsOffsetLeft);
-    this.mcArmRight.setRotation(-rad - this.mcArmsOffsetLeft);
-    this.boltPistol.setRotation(-rad - this.boltPistolOffsetLeft);
-    this.bulletEmitter.setAngle(-((rad * 180 / Math.PI) + 82));
+    const deg = (rad * 180 / Math.PI);
+    const radius = 80;
+    let emitterDegOffset = 0;
+    const shoulderX = this.x + (this.boltPistol.x / 2);
+    const shoulderY = this.y + (this.boltPistol.y / 2);
+    let radOffset = 0;
+
+    if (this.flipX) {
+      radOffset = this.bulletEmitterOffsetLeft;
+      emitterDegOffset = 92;
+      this.mcArmLeft.setRotation(-rad - this.mcArmsOffsetLeft);
+      this.mcArmRight.setRotation(-rad - this.mcArmsOffsetLeft);
+      this.boltPistol.setRotation(-rad - this.boltPistolOffsetLeft);
+      this.bulletEmitter.setAngle(-(deg + emitterDegOffset));
+    }
+    else {
+      radOffset = this.bulletEmitterOffsetRight;
+      emitterDegOffset = 82;
+      this.mcArmLeft.setRotation(-rad - this.mcArmsOffsetRight);
+      this.mcArmRight.setRotation(-rad - this.mcArmsOffsetRight);
+      this.boltPistol.setRotation(-rad - this.boltPistolOffsetRight);
+      this.bulletEmitter.setAngle(-(deg + emitterDegOffset));
+    }
+
+    const emitterX = shoulderX + (radius * Math.cos(-(rad + radOffset)));
+    const emitterY = shoulderY + (radius * Math.sin(-(rad + radOffset)));
+    
+    this.bulletEmitter.setPosition(emitterX, emitterY);
   }
 
   constructor(config) {
@@ -27,6 +52,8 @@ class MCAfricaFight extends Container {
     const bodyHeight = 260;
     const boltPistolOffsetRight = (Math.PI / 2.4);
     const boltPistolOffsetLeft = (Math.PI / 1.85);
+    const bulletEmitterOffsetRight = (Math.PI / 2.25);
+    const bulletEmitterOffsetLeft = (Math.PI / 1.93);
     const mcArmsOffsetRight = (Math.PI / 1.1);
     const mcArmsOffsetLeft = (Math.PI / 0.95);
 
@@ -69,18 +96,45 @@ class MCAfricaFight extends Container {
     this.body.setSize(bodyWidth, bodyHeight);
     this.setScale(0.5);
 
+    // Create the enemy-particle collision object
+    this.enemies = config.enemies;
+    this.enemyCollider = {
+      contains: (x, y) => {
+        let touching = false;
+
+        this.enemies.forEach((enemy) => {
+          if (enemy.body.hitTest(x, y)) {
+            const {scaleX} = enemy;
+            enemy.setScale(scaleX - 0.001);
+            touching = true;
+          }
+        });
+
+        return touching;
+      }
+    };
+
     // Add particle emitter for bullets
     // this.bulletContainer = config.scene.add.container(0, 0, []);
     this.bulletEmitter = bullets.createEmitter({
       // frame: 'blue',
       x: config.x,
       y: config.y,
-      lifespan: 2000,
-      speed: { min: 400, max: 600 },
+      lifespan: 500,
+      speed: { min: 500, max: 600 },
+      // speed: { min: 600, max: 600 },
       angle: 330,
-      gravityY: 300,
-      scale: { start: 0, end: 0.4 },
-      quantity: 1
+      gravityY: 0,
+      // scale: { start: 0.2, end: 0.2 },
+      scale: { start: 0.2, end: 1 },
+      quantity: 1,
+      alpha: (particle, key, t) => {
+        return (1 - t);
+      },
+      deathZone: {
+        type: 'onEnter',
+        source: this.enemyCollider
+      }
       // blendMode: 'ADD'
     });
     this.bulletEmitter.setRadial(true);
@@ -94,11 +148,14 @@ class MCAfricaFight extends Container {
     this.bodyHeight = bodyHeight;
     this.boltPistolOffsetRight = boltPistolOffsetRight;
     this.boltPistolOffsetLeft = boltPistolOffsetLeft;
+    this.bulletEmitterOffsetRight = bulletEmitterOffsetRight;
+    this.bulletEmitterOffsetLeft = bulletEmitterOffsetLeft;
     this.mcArmsOffsetRight = mcArmsOffsetRight;
     this.mcArmsOffsetLeft = mcArmsOffsetLeft;
     this.bullets = bullets;
     this.lastPointerTouch = false;
     this.touchRad = (Math.PI / 2);
+    this.flipX = false;
 
     // Init arrow keys
     this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -185,11 +242,9 @@ class MCAfricaFight extends Container {
       // Handle touch point n shoot controls
       if (pointer1.x < spriteCenterX) {
         this.setFlipX(true);
-        // this.aim(this.touchRad);
       }
       else {
         this.setFlipX(false);
-        // this.aim(-this.touchRad);
       }
 
       if (bothPointersDown) {
@@ -216,7 +271,6 @@ class MCAfricaFight extends Container {
 
       // Gun projectile logic (dummy)
       if (mousePointer.isDown) {
-        this.bulletEmitter.setPosition(this.x + (this.boltPistol.x / 2), this.y + (this.boltPistol.y / 2));
         this.bulletEmitter.start();
       }
       else {

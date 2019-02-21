@@ -21,8 +21,16 @@ class AfricaCampLevel extends Level {
   }
 
   create() {
+    this.baddy1 = this.physics.add.sprite(750, 0, 'jump-blaster');
+    this.baddy1.setScale(0.1);
+
+    const enemies = [
+      this.baddy1
+    ];
+
     this.initScene({
-      MCClass: MCAfricaFight
+      MCClass: MCAfricaFight,
+      enemies
     }); // AfricaCamp is the default level.
 
     const portals = this.map.createFromObjects('portal-layer', 9, { key: 'pink-portal' });
@@ -38,10 +46,6 @@ class AfricaCampLevel extends Level {
       this.aboveLayer,
       this.warpPortal
     ]);
-
-    this.baddy1 = this.physics.add.sprite(1000, 0, 'jump-blaster');
-    this.baddy1.setScale(0.1);
-    this.physics.add.collider(this.baddy1, this.solidLayer);
   }
 
   update() {
@@ -52,7 +56,7 @@ class AfricaCampLevel extends Level {
     }
 
     if (this.baddy1.body.blocked.down) {
-      const randomVelocity = (Math.random() * 300);
+      const randomVelocity = (Math.random() * 100);
       const headsOrTails = (Math.random() > 0.5);
       this.baddy1.body.setVelocityY(-600);
       if (headsOrTails) {
