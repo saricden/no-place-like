@@ -1,6 +1,7 @@
 import Level from './base/Level';
 import {Geom} from 'phaser';
 import MCAfricaFight from '../../sprites/pc/MCAfricaFight';
+import JumperBot from '../../sprites/npc/bad/JumperBot';
 
 const {Intersects} = Geom;
 
@@ -21,11 +22,20 @@ class AfricaCampLevel extends Level {
   }
 
   create() {
-    this.baddy1 = this.physics.add.sprite(750, 0, 'jump-blaster');
-    this.baddy1.setScale(0.1);
+    this.baddies = [];
+    for (let i = 0; i < 5; i++) {
+      const baddy = new JumperBot({
+        scene: this,
+        x: 750 + (150 * i),
+        y: 0,
+        key: 'baddy'+i
+      });
+
+      this.baddies.push(baddy);
+    }
 
     const enemies = [
-      this.baddy1
+      ...this.baddies
     ];
 
     this.initScene({
@@ -41,23 +51,14 @@ class AfricaCampLevel extends Level {
 
   update() {
     this.mc.update();
+    this.baddies.forEach((baddy) => {
+      baddy.update();
+    });
+
+    this.hpText.setText('[ '+this.mc.hp+' / '+this.mc.maxHP+' ]');
     
     if (this.checkOverlap(this.mc, this.warpPortal)) {
       this.teleport();
-    }
-
-    if (this.baddy1.body.blocked.down) {
-      const randomVelocity = (Math.random() * 100);
-      const headsOrTails = (Math.random() > 0.5);
-      this.baddy1.body.setVelocityY(-600);
-      if (headsOrTails) {
-        this.baddy1.body.setVelocityX(randomVelocity);
-        this.baddy1.setFlipX(true);
-      }
-      else {
-        this.baddy1.body.setVelocityX(-randomVelocity);
-        this.baddy1.setFlipX(false);
-      }
     }
   }
 }

@@ -19,6 +19,7 @@ class Level extends Scene {
       x: 500,
       y: 0,
       enemies
+      // showHP: true
     });
 
     // Add our maaaaaaap!
@@ -40,12 +41,17 @@ class Level extends Scene {
     this.physics.add.collider(this.mc, this.solidLayer);
     this.physics.add.collider(this.enemies, this.solidLayer);
 
+    // Add an HP ticker
+    this.hpText = this.add.text(20, 20, 'XX / XX', { fontFamily: 'Sans Serif', color: '#FFF' });
+    this.hpText.setScrollFactor(0);
+
     // Setup our layering
     this.behindLayer.setDepth(-1);
     this.aboveLayer.setDepth(1);
     this.solidLayer.setDepth(0);
     this.mc.setDepth(0);
     this.enemies.setDepth(0);
+    this.hpText.setDepth(2);
 
     // Set camera follow
     this.cameras.main.startFollow(this.mc);

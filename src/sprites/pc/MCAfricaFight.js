@@ -105,7 +105,8 @@ class MCAfricaFight extends Container {
         this.enemies.forEach((enemy) => {
           if (enemy.body.hitTest(x, y)) {
             const {scaleX} = enemy;
-            enemy.setScale(scaleX - 0.001);
+            enemy.setScale(scaleX - 0.005);
+            enemy.damage(1);
             touching = true;
           }
         });
@@ -156,6 +157,31 @@ class MCAfricaFight extends Container {
     this.lastPointerTouch = false;
     this.touchRad = (Math.PI / 2);
     this.flipX = false;
+    this.maxHP = 5;
+    this.hp = this.maxHP;
+    // this.hpBar = null;
+    // this.hpBarStyle = null;
+
+    // // Add our healthbar to the scene
+    // if (config.showHP) {
+    //   this.hpBarStyle = config.scene.add.graphics({
+    //     fillStyle :{
+    //       color: 0xffffff
+    //     }
+    //   });
+    //   const maxHPBar = config.scene.add.graphics({
+    //     strokeStyle: {
+    //       color: 0xffffff
+    //     },
+    //     fillStyle: {
+    //       color: 'rgba(255, 255, 255, 0.1)'
+    //     }
+    //   });
+    //   this.hpBarStyle.setScrollFactor(0);
+    //   maxHPBar.setScrollFactor(0);
+    //   maxHPBar.fillRect(25, 25, window.innerWidth - 25, 50);
+    //   this.updateHPBar();
+    // }
 
     // Init arrow keys
     this.cursors = this.scene.input.keyboard.createCursorKeys();
@@ -166,6 +192,10 @@ class MCAfricaFight extends Container {
       D: this.scene.input.keyboard.addKey(Input.Keyboard.KeyCodes.D)
     };
   }
+
+  // updateHPBar() {
+  //   this.hpBar = this.hpBarStyle.fillRect(25, 25, (window.innerWidth - 25) * (this.hp / this.maxHP), 50);
+  // }
 
   update() {
     const touchingGround = this.body.blocked.down;
@@ -312,8 +342,24 @@ class MCAfricaFight extends Container {
     // TODO (bugfix): Trying to play a boltPistol animation errors
     // this.boltPistol.anims.play('bolt-pistol-idle', true);
 
-    // Check if player falls too far, death reset
-    if (this.y > 5000) {
+    // Update HP bar if it's visible
+    // if (this.hpBar !== null) {
+    //   this.updateHPBar();
+    // }
+
+    // Bad guy hittests
+    this.enemies.forEach((enemy) => {
+      if (this.body.hitTest(enemy.x, enemy.y)) {
+        enemy.jumpRandom();
+        this.hp--;
+      }
+    });
+
+    // Death conditions
+    const fellTooLow = (this.y > 5000);
+    const ranOutOfHP = (this.hp <= 0);
+
+    if (fellTooLow || ranOutOfHP) {
       this.scene.scene.restart(); // lol scene.scene
     }
 
