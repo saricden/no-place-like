@@ -236,8 +236,8 @@ class MCAfricaFight extends Container {
       // Aiming
       const dX = (spriteCenterX - pointer1.x);
       const dY = (spriteCenterY - pointer1.y);
-      this.touchRad = Math.atan2(dX, dY);
-      this.aim(this.touchRad);
+      const rad = Math.atan2(dX, dY);
+      this.aim(rad);
 
       // Handle touch point n shoot controls
       if (pointer1.x < spriteCenterX) {
@@ -248,7 +248,6 @@ class MCAfricaFight extends Container {
       }
 
       if (bothPointersDown) {
-        this.bulletEmitter.setPosition(this.x + (this.boltPistol.x / 2), this.y + (this.boltPistol.y / 2));
         this.bulletEmitter.start();
       }
       else {
