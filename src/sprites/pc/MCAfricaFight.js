@@ -1,4 +1,4 @@
-import {GameObjects} from 'phaser';
+import {GameObjects, Input} from 'phaser';
 import {ui} from '../../config';
 const {Container} = GameObjects;
 const {edgeWidth, nudgeThreshold} = ui;
@@ -159,6 +159,12 @@ class MCAfricaFight extends Container {
 
     // Init arrow keys
     this.cursors = this.scene.input.keyboard.createCursorKeys();
+    this.WSAD = {
+      W: this.scene.input.keyboard.addKey(Input.Keyboard.KeyCodes.W),
+      S: this.scene.input.keyboard.addKey(Input.Keyboard.KeyCodes.S),
+      A: this.scene.input.keyboard.addKey(Input.Keyboard.KeyCodes.A),
+      D: this.scene.input.keyboard.addKey(Input.Keyboard.KeyCodes.D)
+    };
   }
 
   update() {
@@ -167,6 +173,7 @@ class MCAfricaFight extends Container {
     const {pointer1, pointer2} = this.scene.input;
     const {mousePointer} = this.scene.input;
     const {left, right, up} = this.cursors;
+    const {W, D, A} = this.WSAD;
     const bothPointersDown = (pointer1.isDown && pointer2.isDown);
 
     if (pointer1.isDown) {
@@ -180,10 +187,10 @@ class MCAfricaFight extends Container {
     ------------------------------------------- */
     if (touchingGround) {
       // Player left-right control logic
-      if (left.isDown) {
+      if (left.isDown || A.isDown) {
         this.body.setVelocityX(-this.speed);
       }
-      else if (right.isDown) {
+      else if (right.isDown || D.isDown) {
         this.body.setVelocityX(this.speed);
       }
       else {
@@ -191,7 +198,7 @@ class MCAfricaFight extends Container {
       }
 
       // Player jump logic
-      if (up.isDown) {
+      if (up.isDown || W.isDown) {
         this.body.setVelocityY(-this.jumpHeight);
       }
 
