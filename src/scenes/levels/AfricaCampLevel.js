@@ -37,15 +37,6 @@ class AfricaCampLevel extends Level {
     this.warpPortal = portals[0];
 
     this.warpPortal.anims.play('burn', true);
-
-    // Use a container to arrange map v MC layers
-    this.add.container(0, 0, [
-      this.behindLayer,
-      this.mc,
-      this.solidLayer,
-      this.aboveLayer,
-      this.warpPortal
-    ]);
   }
 
   update() {
