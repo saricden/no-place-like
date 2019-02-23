@@ -114,6 +114,8 @@ class MCAfricaFight extends Container {
     this.maxHP = 5;
     this.hp = this.maxHP;
     this.bulletEmitter = config.bulletEmitter;
+
+    this.shootLock = true; // Init the character with shooting disabled
     // this.hpBar = null;
     // this.hpBarStyle = null;
 
@@ -166,6 +168,10 @@ class MCAfricaFight extends Container {
     }
     else if (mousePointer.isDown) {
       this.lastPointerTouch = false;
+    }
+
+    if (this.shootLock && touchingGround) {
+      this.shootLock = false;
     }
 
     /* COMPUTER CONTROLS
@@ -239,7 +245,7 @@ class MCAfricaFight extends Container {
         this.setFlipX(false);
       }
 
-      if (bothPointersDown) {
+      if (bothPointersDown && !this.shootLock) {
         this.bulletEmitter.start();
       }
       else {
@@ -261,7 +267,7 @@ class MCAfricaFight extends Container {
       }
 
       // Gun projectile logic (dummy)
-      if (mousePointer.isDown) {
+      if (mousePointer.isDown && !this.shootLock) {
         this.bulletEmitter.start();
       }
       else {
