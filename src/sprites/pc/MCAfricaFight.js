@@ -61,8 +61,6 @@ class MCAfricaFight extends Container {
     const mcArmLeft = config.scene.add.image((bodyWidth / 2 - 6), 80, 'mc-africa-gun-arm-left');
     const mcArmRight = config.scene.add.image((bodyWidth / 2 - 6), 80, 'mc-africa-gun-arm-right');
     const boltPistol = config.scene.add.sprite((bodyWidth / 2 - 6), 80, 'bolt-pistol2');
-    
-    const bullets = config.scene.add.particles('dummy-projectile');
 
     boltPistol.setScale(0.18);
     boltPistol.setOrigin(-0.8, 0.5);
@@ -96,50 +94,6 @@ class MCAfricaFight extends Container {
     this.body.setSize(bodyWidth, bodyHeight);
     this.setScale(0.5);
 
-    // Create the enemy-particle collision object
-    this.enemies = config.enemies;
-    this.enemyCollider = {
-      contains: (x, y) => {
-        let touching = false;
-
-        this.enemies.forEach((enemy) => {
-          if (enemy.body.hitTest(x, y)) {
-            const {scaleX} = enemy;
-            enemy.setScale(scaleX - 0.005);
-            enemy.damage(1);
-            touching = true;
-          }
-        });
-
-        return touching;
-      }
-    };
-
-    // Add particle emitter for bullets
-    // this.bulletContainer = config.scene.add.container(0, 0, []);
-    this.bulletEmitter = bullets.createEmitter({
-      // frame: 'blue',
-      x: config.x,
-      y: config.y,
-      lifespan: 500,
-      speed: { min: 500, max: 600 },
-      // speed: { min: 600, max: 600 },
-      angle: 330,
-      gravityY: 0,
-      // scale: { start: 0.2, end: 0.2 },
-      scale: { start: 0.2, end: 1 },
-      quantity: 1,
-      alpha: (particle, key, t) => {
-        return (1 - t);
-      },
-      deathZone: {
-        type: 'onEnter',
-        source: this.enemyCollider
-      }
-      // blendMode: 'ADD'
-    });
-    this.bulletEmitter.setRadial(true);
-
     // Setup variables for use in update()
     this.core = core;
     this.mcArmLeft = mcArmLeft;
@@ -153,12 +107,13 @@ class MCAfricaFight extends Container {
     this.bulletEmitterOffsetLeft = bulletEmitterOffsetLeft;
     this.mcArmsOffsetRight = mcArmsOffsetRight;
     this.mcArmsOffsetLeft = mcArmsOffsetLeft;
-    this.bullets = bullets;
+    // this.bullets = bullets;
     this.lastPointerTouch = false;
     this.touchRad = (Math.PI / 2);
     this.flipX = false;
     this.maxHP = 5;
     this.hp = this.maxHP;
+    this.bulletEmitter = config.bulletEmitter;
     // this.hpBar = null;
     // this.hpBarStyle = null;
 
@@ -346,14 +301,6 @@ class MCAfricaFight extends Container {
     // if (this.hpBar !== null) {
     //   this.updateHPBar();
     // }
-
-    // Bad guy hittests
-    this.enemies.forEach((enemy) => {
-      if (this.body.hitTest(enemy.x, enemy.y)) {
-        enemy.jumpRandom();
-        this.hp--;
-      }
-    });
 
     // Death conditions
     const fellTooLow = (this.y > 5000);

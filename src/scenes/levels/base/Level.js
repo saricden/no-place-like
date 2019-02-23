@@ -13,13 +13,61 @@ class Level extends Scene {
     // Add our sprite to jump around on them
     this.enemies = this.physics.add.group(enemies, {});
 
+    // Create the bullet particle emitter for our character
+    // Add particle emitter for bullets
+    // this.bulletContainer = config.scene.add.container(0, 0, []);
+    const enemyCollider = {
+      contains: (x, y) => {
+        let touching = false;
+
+        this.enemies.children.entries.forEach((enemy, i) => {
+          if (enemy.body.hitTest(x, y)) {
+            const {scaleX} = enemy;
+            enemy.setScale(scaleX - 0.001);
+            const isDead = enemy.damageOrKill(1);
+            touching = true;
+
+            if (isDead) {
+              this.enemies.remove(enemy);
+            }
+          }
+        });
+
+        return touching;
+      }
+    };
+
+    const bullets = this.add.particles('dummy-projectile');
+    this.bulletEmitter = bullets.createEmitter({
+      // frame: 'blue',
+      x: 0,
+      y: 0,
+      lifespan: 500,
+      speed: { min: 500, max: 600 },
+      // speed: { min: 600, max: 600 },
+      angle: 330,
+      gravityY: 0,
+      // scale: { start: 0.2, end: 0.2 },
+      scale: { start: 0.2, end: 1 },
+      quantity: 1,
+      alpha: (particle, key, t) => {
+        return (1 - t);
+      },
+      deathZone: {
+        type: 'onEnter',
+        source: enemyCollider
+      }
+      // blendMode: 'ADD'
+    });
+    this.bulletEmitter.setRadial(true);
+
+    // Create our character
     this.mc = new MCClass({
       key: 'mc',
       scene: this,
       x: 500,
       y: 0,
-      enemies
-      // showHP: true
+      bulletEmitter: this.bulletEmitter
     });
 
     // Add our maaaaaaap!
@@ -55,6 +103,16 @@ class Level extends Scene {
 
     // Set camera follow
     this.cameras.main.startFollow(this.mc);
+  }
+
+  updateScene() {
+    // Bad guy hittests
+    this.enemies.children.entries.forEach((enemy) => {
+      if (this.mc.body.hitTest(enemy.x, enemy.y)) {
+        enemy.jumpRandom();
+        this.hp--;
+      }
+    });
   }
 
 }
