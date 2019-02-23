@@ -51,6 +51,7 @@ class AfricaCampLevel extends Level {
 
   update() {
     this.mc.update();
+    this.updateScene();
     this.baddies.forEach((baddy) => {
       baddy.update();
     });

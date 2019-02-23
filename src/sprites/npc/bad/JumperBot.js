@@ -15,7 +15,7 @@ class JumperBot extends Sprite {
     // Config
     this.maxSpeed = 100;
     this.jumpHeight = 600;
-    this.maxHP = 10;
+    this.maxHP = 50;
     this.hp = this.maxHP;
 
     // Setup physics properties
@@ -23,12 +23,20 @@ class JumperBot extends Sprite {
     this.setScale(0.1);
   }
 
-  damage(reduceBy) {
-    this.hp -= reduceBy;
+  damageOrKill(damage) {
+    this.hp -= damage;
 
-    if (this.hp <= 0) {
+    if (this.isDead()) {
+      this.setActive(false);
       this.setVisible(false);
+      return true;
     }
+
+    return false;
+  }
+
+  isDead() {
+    return (this.hp <= 0);
   }
 
   jump(coinToss) {
