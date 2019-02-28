@@ -16,6 +16,7 @@ class PreloaderScene extends Scene {
     this.load.image('dummy-projectile', 'assets/images/dummy/dummy-projectile.png');
     this.load.image('mc-africa-gun-arm-left', 'assets/images/sprites/mc-africa/gun-arm-left.png');
     this.load.image('mc-africa-gun-arm-right', 'assets/images/sprites/mc-africa/gun-arm-right.png');
+    this.load.image('rotator-enemy', 'assets/images/sprites/rotator-baddy/baddy2.png');
 
     this.load.multiatlas('mc-africa', 'assets/images/sprites/mc-africa/packed/mc-africa.json', 'assets/images/sprites/mc-africa/packed');
     this.load.multiatlas('mc-africa-noarms', 'assets/images/sprites/mc-africa-noarms/packed/mc-africa-noarms.json', 'assets/images/sprites/mc-africa-noarms/packed');
