@@ -60,7 +60,8 @@ class RotatorBot extends Enemy {
 
   }
 
-  attack() {
+  attack(mc) {
+    mc.hp--;
     // eventually he'll explode
   }
 

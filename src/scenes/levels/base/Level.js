@@ -91,7 +91,7 @@ class Level extends Scene {
     // this.physics.add.overlap(this.enemies, this.solidLayer);
 
     // Add an HP ticker
-    this.hpText = this.add.text(20, 20, 'XX / XX', { fontFamily: 'Sans Serif', color: '#FFF' });
+    this.hpText = this.add.text(20, 20, 'XX / XX', { fontFamily: 'Sans Serif', color: '#000' });
     this.hpText.setScrollFactor(0);
 
     // Setup our layering
@@ -111,8 +111,7 @@ class Level extends Scene {
     // Bad guy hittests
     this.enemies.children.entries.forEach((enemy) => {
       if (this.mc.body.hitTest(enemy.x, enemy.y)) {
-        enemy.attack();
-        this.hp--;
+        enemy.attack(this.mc);
       }
     });
   }
