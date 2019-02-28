@@ -30,14 +30,14 @@ class JumperBot extends Enemy {
     }
   }
 
-  jumpRandom() {
+  attack() {
     const headsOrTails = (Math.random() > 0.5);
     this.jump(headsOrTails);
   }
 
   update() {
     if (this.body.blocked.down) {
-      this.jumpRandom();
+      this.attack();
     }
   }
 }

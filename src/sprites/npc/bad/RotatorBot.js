@@ -60,6 +60,10 @@ class RotatorBot extends Enemy {
 
   }
 
+  attack() {
+    // eventually he'll explode
+  }
+
 }
 
 export default RotatorBot;

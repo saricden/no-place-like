@@ -111,7 +111,7 @@ class Level extends Scene {
     // Bad guy hittests
     this.enemies.children.entries.forEach((enemy) => {
       if (this.mc.body.hitTest(enemy.x, enemy.y)) {
-        enemy.jumpRandom();
+        enemy.attack();
         this.hp--;
       }
     });
