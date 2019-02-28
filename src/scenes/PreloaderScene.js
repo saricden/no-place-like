@@ -106,8 +106,8 @@ class PreloaderScene extends Scene {
     // Bolt pistol
     this.anims.create({
       key: 'bolt-pistol-idle',
-      frame: this.anims.generateFrameNames('bolt-pistol2', {prefix: 'bolt-pistol-idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
-      frameRate: 4,
+      frames: this.anims.generateFrameNames('bolt-pistol2', {prefix: 'bolt-pistol-idle/', start: 1, end: 4, zeroPad: 2, suffix: '.png'}),
+      frameRate: 18,
       repeat: -1
     });
 
