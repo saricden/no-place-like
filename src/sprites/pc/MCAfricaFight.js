@@ -300,8 +300,7 @@ class MCAfricaFight extends Container {
       this.core.anims.play('idle-noarms', true);
     }
 
-    // TODO (bugfix): Trying to play a boltPistol animation errors
-    // this.boltPistol.anims.play('bolt-pistol-idle', true);
+    this.boltPistol.anims.play('bolt-pistol-idle', true);
 
     // Update HP bar if it's visible
     // if (this.hpBar !== null) {
