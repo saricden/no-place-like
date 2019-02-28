@@ -18,7 +18,7 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { y: 400 },
-      debug: true
+      debug: (typeof process.env.NODE_ENV !== 'undefined' && process.env.NODE_ENV === 'development')
     }
   },
   scene: [

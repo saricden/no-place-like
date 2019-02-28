@@ -2,7 +2,7 @@ import Level from './base/Level';
 import {Geom} from 'phaser';
 import MCAfricaFight from '../../sprites/pc/MCAfricaFight';
 import JumperBot from '../../sprites/npc/bad/JumperBot';
-
+import RotatorBot from '../../sprites/npc/bad/RotatorBot';
 const {Intersects} = Geom;
 
 class AfricaCampLevel extends Level {
@@ -33,6 +33,15 @@ class AfricaCampLevel extends Level {
 
       this.baddies.push(baddy);
     }
+
+    const rotatorBot = new RotatorBot({
+      scene: this,
+      x: 300,
+      y: 1100,
+      key: 'rotatorBaddy1'
+    });
+
+    this.baddies.push(rotatorBot);
 
     const enemies = [
       ...this.baddies

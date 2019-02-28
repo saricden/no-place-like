@@ -66,7 +66,7 @@ class Level extends Scene {
       key: 'mc',
       scene: this,
       x: 500,
-      y: 0,
+      y: 1100,
       bulletEmitter: this.bulletEmitter
     });
 
@@ -88,18 +88,20 @@ class Level extends Scene {
     // MC vs enemies & solidLayer collisions
     this.physics.add.collider(this.mc, this.solidLayer);
     this.physics.add.collider(this.enemies, this.solidLayer);
+    // this.physics.add.overlap(this.enemies, this.solidLayer);
 
     // Add an HP ticker
     this.hpText = this.add.text(20, 20, 'XX / XX', { fontFamily: 'Sans Serif', color: '#FFF' });
     this.hpText.setScrollFactor(0);
 
     // Setup our layering
-    this.behindLayer.setDepth(-1);
-    this.aboveLayer.setDepth(1);
-    this.solidLayer.setDepth(0);
-    this.mc.setDepth(0);
-    this.enemies.setDepth(0);
-    this.hpText.setDepth(2);
+    this.behindLayer.setDepth(1);
+    this.aboveLayer.setDepth(3);
+    this.solidLayer.setDepth(2);
+    this.mc.setDepth(2);
+    bullets.setDepth(2);
+    this.enemies.setDepth(2);
+    this.hpText.setDepth(4);
 
     // Set camera follow
     this.cameras.main.startFollow(this.mc);
