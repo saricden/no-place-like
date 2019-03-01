@@ -83,7 +83,7 @@ class MCAfricaFight extends Container {
 
     // Config
     this.speed = 200;
-    this.jumpHeight = 350;
+    this.jumpHeight = 450;
 
     // Variables
     this.persistentVelocityX = 0;

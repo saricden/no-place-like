@@ -26,6 +26,7 @@ class PreloaderScene extends Scene {
     this.load.image('basic-tiles', 'assets/images/tilemaps/basic.png');
     this.load.tilemapTiledJSON('africa-camp-map', 'assets/maps/africa-camp.json');
     this.load.tilemapTiledJSON('test-map', 'assets/maps/test-map.json');
+    this.load.tilemapTiledJSON('level1-map', 'assets/maps/level1.json');
 
     this.load.spritesheet('pink-portal', 'assets/images/sprites/tiles/pink-portal.png', { frameWidth: 100, frameHeight: 100 });
 
@@ -122,7 +123,7 @@ class PreloaderScene extends Scene {
     // Called after preload, used to initialize your scene
     if (typeof process.env.NODE_ENV !== 'undefined' && process.env.NODE_ENV === 'development') {
       // Replace this w/ whatever scene you're working on
-      this.scene.start('africa-camp');
+      this.scene.start('level-level1');
     }
     else {
       // In production start on the title screen

@@ -7,6 +7,7 @@ import TitleScene from './scenes/TitleScene';
 // Levels
 import AfricaCampLevel from './scenes/levels/AfricaCampLevel';
 import TestLevel from './scenes/levels/TestLevel';
+import Level1 from './scenes/levels/Level1';
 
 const canvas = document.getElementById('game-canvas');
 const config = {
@@ -26,7 +27,8 @@ const config = {
     PreloaderScene,
     TitleScene,
     AfricaCampLevel,
-    TestLevel
+    TestLevel,
+    Level1
   ],
   pixelArt: true
 };

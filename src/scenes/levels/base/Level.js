@@ -2,7 +2,7 @@ import {Scene} from 'phaser';
 import MCAfrica from '../../../sprites/pc/MCAfrica';
 
 class Level extends Scene {
-  initScene({bgColor = '#f5efbf', MCClass = MCAfrica, tilemapKey = 'africa-camp-map', tilesetName = 'Basic', tilesetImage = 'basic-tiles', collisionTiles = [[1, 4], [8, 11], [15, 16]], enemies = []}) {
+  initScene({bgColor = '#f5efbf', MCClass = MCAfrica, tilemapKey = 'africa-camp-map', tilesetName = 'Basic', tilesetImage = 'basic-tiles', collisionTiles = [[1, 4], [8, 11], [15, 16]], enemies = [], mcX = 500, mcY = 1100}) {
     // Set BG colour
     this.cameras.main.setBackgroundColor(bgColor);
     this.cameras.main.setRoundPixels(true); // seems to solve the janky lines ¯\_(ツ)_/¯
@@ -65,8 +65,8 @@ class Level extends Scene {
     this.mc = new MCClass({
       key: 'mc',
       scene: this,
-      x: 500,
-      y: 1100,
+      x: mcX,
+      y: mcY,
       bulletEmitter: this.bulletEmitter
     });
 
