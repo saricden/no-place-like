@@ -2,7 +2,7 @@ import {Scene} from 'phaser';
 import MCAfrica from '../../../sprites/pc/MCAfrica';
 
 class Level extends Scene {
-  initScene({bgColor = '#f5efbf', MCClass = MCAfrica, tilemapKey = 'africa-camp-map', tilesetName = 'Basic', tilesetImage = 'basic-tiles', collisionTiles = [[1, 4], [8, 11], [15, 16]], enemies = [], mcX = 500, mcY = 1100}) {
+  initScene({bgColor = '#f5efbf', MCClass = MCAfrica, tilemapKey = 'africa-camp-map', tilesetName = 'Basic', tilesetImage = 'basic-tiles', collisionTiles = [[1, 4], [8, 11], [15, 16]], enemies = [], NPCs = [], mcX = 500, mcY = 1100}) {
     // Set BG colour
     this.cameras.main.setBackgroundColor(bgColor);
     this.cameras.main.setRoundPixels(true); // seems to solve the janky lines ¯\_(ツ)_/¯
@@ -10,8 +10,9 @@ class Level extends Scene {
     // Enable multi-touch
     this.input.addPointer(2);
 
-    // Add our sprite to jump around on them
+    // Add enemies & NPCs to respective physics groups
     this.enemies = this.physics.add.group(enemies, {});
+    this.NPCs = this.physics.add.group(NPCs, {});
 
     // Create the bullet particle emitter for our character
     // Add particle emitter for bullets
@@ -88,6 +89,7 @@ class Level extends Scene {
     // MC vs enemies & solidLayer collisions
     this.physics.add.collider(this.mc, this.solidLayer);
     this.physics.add.collider(this.enemies, this.solidLayer);
+    this.physics.add.collider(this.NPCs, this.solidLayer);
     // this.physics.add.overlap(this.enemies, this.solidLayer);
 
     // Add an HP ticker
@@ -96,12 +98,13 @@ class Level extends Scene {
 
     // Setup our layering
     this.behindLayer.setDepth(1);
-    this.aboveLayer.setDepth(3);
+    this.aboveLayer.setDepth(4);
     this.solidLayer.setDepth(2);
-    this.mc.setDepth(2);
+    this.mc.setDepth(3);
     bullets.setDepth(2);
     this.enemies.setDepth(2);
-    this.hpText.setDepth(4);
+    this.NPCs.setDepth(2);
+    this.hpText.setDepth(5);
 
     // Set camera follow
     this.cameras.main.startFollow(this.mc);
