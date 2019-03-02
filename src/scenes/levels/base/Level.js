@@ -2,7 +2,7 @@ import {Scene} from 'phaser';
 import MCAfrica from '../../../sprites/pc/MCAfrica';
 
 class Level extends Scene {
-  initScene({bgColor = '#f5efbf', MCClass = MCAfrica, tilemapKey = 'africa-camp-map', tilesetName = 'Basic', tilesetImage = 'basic-tiles', collisionTiles = [[1, 4], [8, 11], [15, 16]], enemies = [], NPCs = [], mcX = 500, mcY = 1100}) {
+  initScene({bgColor = '#f5efbf', MCClass = MCAfrica, tilemapKey = 'africa-camp-map', tilesetName = 'Basic', tilesetImage = 'basic-tiles', collisionTiles = [[1, 4], [8, 11], [15, 16]], enemies = [], NPCs = [], mcX = 500, mcY = 1100}) {    
     // Set BG colour
     this.cameras.main.setBackgroundColor(bgColor);
     this.cameras.main.setRoundPixels(true); // seems to solve the janky lines ¯\_(ツ)_/¯
@@ -96,6 +96,27 @@ class Level extends Scene {
     this.hpText = this.add.text(20, 20, 'XX / XX', { fontFamily: 'Sans Serif', color: '#000' });
     this.hpText.setScrollFactor(0);
 
+    // Create subtitle text
+    this.subtitle = this.add.text((window.innerWidth / 2), window.innerHeight, '(subtitle)', {
+      fontFamily: 'Sans Serif',
+      color: '#FFF',
+      stroke: '#000',
+      strokeThickness: 3,
+      align: 'center',
+      padding: 20,
+      opacity: 0,
+      wordWrap: {
+        width: window.innerWidth,
+        useAdvancedWrap: true
+      }
+    });
+    this.subtitle.setOrigin(0.5, 1);
+    this.subtitle.setScrollFactor(0);
+    this.subtitle.setAlpha(0);
+    this.subtitle.setPosition((window.innerWidth / 2), (window.innerHeight + this.subtitle.displayHeight));
+    this.lineIndex = 0;
+    
+
     // Setup our layering
     this.behindLayer.setDepth(1);
     this.aboveLayer.setDepth(4);
@@ -105,9 +126,28 @@ class Level extends Scene {
     this.enemies.setDepth(2);
     this.NPCs.setDepth(2);
     this.hpText.setDepth(5);
+    this.subtitle.setDepth(5);
 
     // Set camera follow
     this.cameras.main.startFollow(this.mc);
+  }
+
+  showSubtitle(blurb) {
+    const line = blurb.say[this.lineIndex];
+    this.subtitle.setText(line);
+    this.tweens.add({
+      targets: this.subtitle,
+      y: window.innerHeight,
+      alpha: 1,
+      ease: 'Power1',
+      duration: 3000,
+      yoyo: true,
+      repeat: 0,
+      onStart: function () { console.log('onStart'); console.log(arguments); },
+      onComplete: function () { console.log('onComplete'); console.log(arguments); },
+      onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+      onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+    });
   }
 
   updateScene() {

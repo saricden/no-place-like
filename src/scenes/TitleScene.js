@@ -138,10 +138,16 @@ class TitleScene extends Scene {
     // UI Functionality
     newGameBtn.setInteractive();
     newGameBtn.on('pointerdown', this.newGame.bind(this));
+    loadGameBtn.setInteractive();
+    loadGameBtn.on('pointerdown', this.loadGame.bind(this));
   }
 
   newGame() {
     this.scene.start('africa-camp');
+  }
+
+  loadGame() {
+    this.scene.start('level-level1');
   }
 
 }
