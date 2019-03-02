@@ -134,6 +134,8 @@ class PreloaderScene extends Scene {
     if (typeof process.env.NODE_ENV !== 'undefined' && process.env.NODE_ENV === 'development') {
       // Replace this w/ whatever scene you're working on
       this.scene.start('level-level1');
+      // this.scene.start('title-scene');
+
     }
     else {
       // In production start on the title screen
