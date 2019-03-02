@@ -29,6 +29,7 @@ class PreloaderScene extends Scene {
     this.load.tilemapTiledJSON('level1-map', 'assets/maps/level1.json');
 
     this.load.spritesheet('pink-portal', 'assets/images/sprites/tiles/pink-portal.png', { frameWidth: 100, frameHeight: 100 });
+    this.load.spritesheet('npc-engineer', 'assets/images/sprites/npc-engineer/npc-engineer.png', { frameWidth: 240, frameHeight: 270 });
 
     let loadingBar = this.add.graphics({
       fillStyle :{
@@ -104,6 +105,15 @@ class PreloaderScene extends Scene {
       repeat: -1
     });
 
+    // Engineer NPC examining his doodad
+    this.anims.create({
+      key: 'engineer-idle',
+      frames: this.anims.generateFrameNames('npc-engineer', { start: 0, end: 12 }),
+      frameRate: 8,
+      repeat: -1,
+      yoyo: true
+    });
+
     // Bolt pistol
     this.anims.create({
       key: 'bolt-pistol-idle',
@@ -115,7 +125,7 @@ class PreloaderScene extends Scene {
     // Jump blasta
     this.anims.create({
       key: 'jump',
-      frame: this.anims.generateFrameNames('jump-blaster', {prefix: 'jump/', start: 1, end: 3, zeroPad: 2, suffix: '.png'}),
+      frames: this.anims.generateFrameNames('jump-blaster', {prefix: 'jump/', start: 1, end: 3, zeroPad: 2, suffix: '.png'}),
       frameRate: 4,
       repeat: -1
     });
