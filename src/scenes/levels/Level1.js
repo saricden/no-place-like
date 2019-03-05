@@ -15,18 +15,22 @@ class Level1 extends Level {
       key: 'npc-engineer-sprite',
       dialog: {
         hello: {
-          question: true,
-          say: ["Hi, I'm an engineer. Would you like to hear how I can assist you?"],
-          answers: [
-            {
-              reply: "Yes, what can you do?",
-              linkTo: "tutorial"
-            },
-            {
-              reply: "Nope, I already know.",
+          isQuestion: true,
+          say: [
+            "What's up G?",
+            "I been sleeping all day.",
+            "Whatchu got?"
+          ],
+          answers: {
+            left: {
+              reply: "I got stuff bro.",
               linkTo: "gotJunk"
+            },
+            right: {
+              reply: "Huh?",
+              linkTo: "tutorial"
             }
-          ]
+          }
         },
         tutorial: {
           say: [
@@ -39,19 +43,30 @@ class Level1 extends Level {
           ]
         },
         gotJunk: {
-          question: true,
+          isQuestion: true,
           say: ["What've you got for me today?"],
-          answers: [
-            {
+          answers: {
+            left: {
               reply: "I've got some stuff.",
               callback: (npc) => {}
+            },
+            right: {
+              reply: "I just wanted to chat.",
+              linkTo: "goAway"
             }
-          ]
+          }
         },
         thanks: {
           say: [
             "Thanks. I'll have something for you in an hour. Come back then.",
             "Seeya later."
+          ]
+        },
+        goAway: {
+          say: [
+            "Ain't you got anything better to do?",
+            "I'm busy here.",
+            "Please leave."
           ]
         },
         newWeapon: {

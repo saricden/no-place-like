@@ -15,10 +15,18 @@ class NPC extends Sprite {
     this.scene = config.scene;
   }
 
-  readDialog(key) {
+  readDialog(key, index = 0) {
     // Read through dialogs in order, until stop property is detected
-    const blurb = this.dialog[key];
-    this.scene.showSubtitle(blurb);
+    const line = this.dialog[key].say[index];
+    this.scene.showSubtitle(line).then(() => {
+      if (typeof this.dialog[key].say[index + 1] !== 'undefined') {
+        this.readDialog(key, index + 1);
+      }
+      else if (typeof this.dialog[key].say[index + 2] === 'undefined' && this.dialog[key].isQuestion) {
+        this.scene.showQuestion(line, this.dialog[key].answers, this).then((answer) => {
+        });
+      }
+    });
   }
 
   readRandom() {
