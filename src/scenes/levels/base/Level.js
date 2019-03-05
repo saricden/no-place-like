@@ -104,7 +104,6 @@ class Level extends Scene {
       strokeThickness: 3,
       align: 'center',
       padding: 20,
-      opacity: 0,
       wordWrap: {
         width: window.innerWidth,
         useAdvancedWrap: true
@@ -114,8 +113,38 @@ class Level extends Scene {
     this.subtitle.setScrollFactor(0);
     this.subtitle.setAlpha(0);
     this.subtitle.setPosition((window.innerWidth / 2), (window.innerHeight + this.subtitle.displayHeight));
-    this.lineIndex = 0;
-    
+
+    this.ansLeft = this.add.text(((window.innerWidth / 2) - 10), (window.innerHeight + 50), '[ans1]', {
+      fontFamily: 'Sans Serif',
+      color: '#FFF',
+      backgroundColor: '#000',
+      padding: 5,
+      align: 'right',
+      wordWrap: {
+        width: (window.innerWidth / 2),
+        useAdvancedWrap: true
+      }
+    });
+    this.ansLeft.setOrigin(1, 1);
+    this.ansLeft.setScrollFactor(0);
+    this.ansLeft.setAlpha(0);
+    this.ansLeft.setInteractive();
+
+    this.ansRight = this.add.text(((window.innerWidth / 2) + 5), (window.innerHeight + 50), '[ans1]', {
+      fontFamily: 'Sans Serif',
+      color: '#FFF',
+      backgroundColor: '#000',
+      padding: 5,
+      align: 'left',
+      wordWrap: {
+        width: (window.innerWidth / 2),
+        useAdvancedWrap: true
+      }
+    });
+    this.ansRight.setOrigin(0, 1);
+    this.ansRight.setScrollFactor(0);
+    this.ansRight.setAlpha(0);
+    this.ansRight.setInteractive();
 
     // Setup our layering
     this.behindLayer.setDepth(1);
@@ -127,26 +156,121 @@ class Level extends Scene {
     this.NPCs.setDepth(2);
     this.hpText.setDepth(5);
     this.subtitle.setDepth(5);
+    this.ansLeft.setDepth(5);
+    this.ansRight.setDepth(5);
 
     // Set camera follow
     this.cameras.main.startFollow(this.mc);
   }
 
-  showSubtitle(blurb) {
-    const line = blurb.say[this.lineIndex];
-    this.subtitle.setText(line);
-    this.tweens.add({
-      targets: this.subtitle,
-      y: window.innerHeight,
-      alpha: 1,
-      ease: 'Power1',
-      duration: 3000,
-      yoyo: true,
-      repeat: 0,
-      onStart: function () { console.log('onStart'); console.log(arguments); },
-      onComplete: function () { console.log('onComplete'); console.log(arguments); },
-      onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-      onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+  showSubtitle(line) {
+    return new Promise((resolve, reject) => {
+      this.subtitle.setText(line);
+      this.tweens.add({
+        targets: this.subtitle,
+        y: window.innerHeight,
+        alpha: 1,
+        ease: 'Power1',
+        duration: 1000,
+        hold: (line.length * 100), // 100ms / character
+        yoyo: true,
+        repeat: 0,
+        onComplete: function () { 
+          resolve();
+          console.log('asjidf');
+        }
+      });
+    });
+  }
+
+  showQuestion(line, answers, npc) {
+    return new Promise((resolve, reject) => {
+      // Set the text of line + ans
+      this.subtitle.setText(line);
+      this.ansLeft.setText(answers.left.reply);
+      this.ansRight.setText(answers.right.reply);
+
+      // Clear any old events
+      this.ansLeft.off('pointerdown');
+      this.ansRight.off('pointerdown');
+
+      // Set the click / touch events
+      if (typeof answers.left.callback !== 'undefined') {
+        this.ansLeft.on('pointerdown', answers.left.callback);
+      }
+      else {
+        this.ansLeft.on('pointerdown', () => {
+          this.hideAnswers().then(() => {
+            npc.readDialog(answers.left.linkTo);
+          });
+        });
+      }
+
+      if (typeof answers.right.callback !== 'undefined') {
+        this.ansRight.on('pointerdown', answers.right.callback);
+      }
+      else {
+        this.ansRight.on('pointerdown', () => {
+          this.hideAnswers().then(() => {
+            npc.readDialog(answers.right.linkTo);
+          });
+        });
+      }
+
+
+      this.tweens.add({
+        targets: this.subtitle,
+        y: (window.innerHeight - 50),
+        alpha: 1,
+        ease: 'Power1',
+        duration: 1000,
+        yoyo: false,
+        repeat: 0
+      });
+      this.tweens.add({
+        targets: this.ansLeft,
+        y: (window.innerHeight - 25),
+        alpha: 1,
+        ease: 'Power1',
+        duration: 1000,
+        yoyo: false,
+        repeat: 0
+      });
+      this.tweens.add({
+        targets: this.ansRight,
+        y: (window.innerHeight - 25),
+        alpha: 1,
+        ease: 'Power1',
+        duration: 1000,
+        yoyo: false,
+        repeat: 0
+      });
+    });
+  }
+
+  hideAnswers() {
+    return new Promise((resolve, reject) => {
+      this.tweens.add({
+        targets: [this.ansLeft, this.ansRight],
+        y: (window.innerHeight + 50),
+        alpha: 0,
+        ease: 'Power1',
+        duration: 1000,
+        yoyo: false,
+        repeat: 0
+      });
+      this.tweens.add({
+        targets: this.subtitle,
+        y: (window.innerHeight + this.subtitle.displayHeight),
+        alpha: 1,
+        ease: 'Power1',
+        duration: 1000,
+        yoyo: false,
+        repeat: 0,
+        onComplete: () => {
+          resolve();
+        }
+      });
     });
   }
 
