@@ -48,7 +48,9 @@ class Level1 extends Level {
           answers: {
             left: {
               reply: "I've got some stuff.",
-              callback: (npc) => {}
+              callback: (npc) => {
+                console.log(npc);
+              }
             },
             right: {
               reply: "I just wanted to chat.",
