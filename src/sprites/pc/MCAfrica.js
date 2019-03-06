@@ -1,4 +1,4 @@
-import {GameObjects} from 'phaser';
+import {GameObjects, Input} from 'phaser';
 import {ui} from '../../config';
 const {Sprite} = GameObjects;
 const {edgeWidth, nudgeThreshold} = ui;
@@ -28,6 +28,12 @@ class MCAfrica extends Sprite {
 
     // Init arrow keys
     this.cursors = this.scene.input.keyboard.createCursorKeys();
+    this.WSAD = {
+      W: this.scene.input.keyboard.addKey(Input.Keyboard.KeyCodes.W),
+      S: this.scene.input.keyboard.addKey(Input.Keyboard.KeyCodes.S),
+      A: this.scene.input.keyboard.addKey(Input.Keyboard.KeyCodes.A),
+      D: this.scene.input.keyboard.addKey(Input.Keyboard.KeyCodes.D)
+    };
   }
 
   update() {
@@ -35,16 +41,17 @@ class MCAfrica extends Sprite {
     const touchingWall = (this.body.blocked.left || this.body.blocked.right);
     const {pointer1, pointer2} = this.scene.input;
     const {left, right, up} = this.cursors;
+    const {W, D, A} = this.WSAD;
 
     /* COMPUTER CONTROLS
     ------------------------------------------- */
     if (touchingGround) {
       // Player left-right control logic
-      if (left.isDown) {
+      if (left.isDown || A.isDown) {
         this.body.setVelocityX(-this.speed);
         this.setFlipX(true);
       }
-      else if (right.isDown) {
+      else if (right.isDown || D.isDown) {
         this.body.setVelocityX(this.speed);
         this.setFlipX(false);
       }
@@ -53,7 +60,7 @@ class MCAfrica extends Sprite {
       }
 
       // Player jump logic
-      if (up.isDown) {
+      if (up.isDown || W.isDown) {
         this.body.setVelocityY(-this.jumpHeight);
       }
 
