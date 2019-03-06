@@ -172,7 +172,7 @@ class Level extends Scene {
         alpha: 1,
         ease: 'Power1',
         duration: 1000,
-        hold: (line.length * 100), // 100ms / character
+        hold: (line.length * 10), // 100ms / character
         yoyo: true,
         repeat: 0,
         onComplete: function () { 
@@ -196,7 +196,9 @@ class Level extends Scene {
 
       // Set the click / touch events
       if (typeof answers.left.callback !== 'undefined') {
-        this.ansLeft.on('pointerdown', answers.left.callback);
+        this.ansLeft.on('pointerdown', () => {
+          answers.left.callback(npc);
+        });
       }
       else {
         this.ansLeft.on('pointerdown', () => {
@@ -207,7 +209,9 @@ class Level extends Scene {
       }
 
       if (typeof answers.right.callback !== 'undefined') {
-        this.ansRight.on('pointerdown', answers.right.callback);
+        this.ansRight.on('pointerdown', () => {
+          answers.right.callback(npc);
+        });
       }
       else {
         this.ansRight.on('pointerdown', () => {
