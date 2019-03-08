@@ -1,4 +1,5 @@
 node_modules/
 dist/
 nogit/
+/lambda
 .idea
