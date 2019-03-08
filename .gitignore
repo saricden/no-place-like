@@ -3,3 +3,4 @@ dist/
 nogit/
 /lambda
 .idea
+.env
