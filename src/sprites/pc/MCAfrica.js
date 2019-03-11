@@ -62,6 +62,16 @@ class MCAfrica extends Sprite {
       // Player jump logic
       if (up.isDown || W.isDown) {
         this.body.setVelocityY(-this.jumpHeight);
+	
+        up.isDown = null;
+        W.isDown = null;
+        
+        setTimeout(() => {
+          if (up.isDown || W.isDown) {
+            this.body.setVelocityY(-this.jumpHeight * 2);
+          }
+        }, 350);
+
       }
 
       // Persist X velocity
