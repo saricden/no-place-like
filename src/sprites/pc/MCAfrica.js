@@ -15,8 +15,9 @@ class MCAfrica extends Sprite {
 
     // Config
     this.speed = 200;
-    this.maxJumpHeight = 600;
-    this.jumpHeight = 0;
+    this.initJumpHeight = 300;
+    this.maxJumpHeight = this.initJumpHeight * 2;
+    this.jumpHeight = this.initJumpHeight;
     this.jumpChargeRate = 10;
 
     // Variables
@@ -80,7 +81,7 @@ class MCAfrica extends Sprite {
         //     this.body.setVelocityY(-this.jumpHeight * 1.5);
         //   }
         // }, 350);
-        this.jumpHeight = 0;
+        this.jumpHeight = this.initJumpHeight;
         this.setJump = false;
       }
 
