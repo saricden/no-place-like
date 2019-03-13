@@ -15,11 +15,14 @@ class MCAfrica extends Sprite {
 
     // Config
     this.speed = 200;
-    this.jumpHeight = 350;
+    this.maxJumpHeight = 600;
+    this.jumpHeight = 0;
+    this.jumpChargeRate = 10;
 
     // Variables
     this.persistentVelocityX = 0;
     this.pointer1DownY = null;
+    this.setJump = false;
 
     // Setup physics properties
     this.body.setBounce(0);
@@ -61,17 +64,24 @@ class MCAfrica extends Sprite {
 
       // Player jump logic
       if (up.isDown || W.isDown) {
+        this.setJump = true;
+
+        if (this.jumpHeight < this.maxJumpHeight)
+          this.jumpHeight += this.jumpChargeRate;
+      }
+      else if (this.setJump) {
         this.body.setVelocityY(-this.jumpHeight);
 	
-        up.isDown = null;
-        W.isDown = null;
+        // up.isDown = null;
+        // W.isDown = null;
         
-        setTimeout(() => {
-          if (up.isDown || W.isDown) {
-            this.body.setVelocityY(-this.jumpHeight * 2);
-          }
-        }, 350);
-
+        // setTimeout(() => {
+        //   if (up.isDown || W.isDown) {
+        //     this.body.setVelocityY(-this.jumpHeight * 1.5);
+        //   }
+        // }, 350);
+        this.jumpHeight = 0;
+        this.setJump = false;
       }
 
       // Persist X velocity
