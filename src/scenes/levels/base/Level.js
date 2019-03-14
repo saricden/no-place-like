@@ -68,7 +68,8 @@ class Level extends Scene {
       scene: this,
       x: mcX,
       y: mcY,
-      bulletEmitter: this.bulletEmitter
+      bulletEmitter: this.bulletEmitter,
+      enemies: this.enemies
     });
 
     // Add our maaaaaaap!
