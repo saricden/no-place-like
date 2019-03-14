@@ -1,4 +1,4 @@
-import {GameObjects, Input} from 'phaser';
+import Phaser, {GameObjects, Input} from 'phaser';
 import {ui} from '../../config';
 const {Container} = GameObjects;
 const {edgeWidth, nudgeThreshold} = ui;
@@ -83,7 +83,10 @@ class MCAfricaFight extends Container {
 
     // Config
     this.speed = 200;
-    this.jumpHeight = 450;
+    this.initJumpHeight = 300;
+    this.maxJumpHeight = this.initJumpHeight * 2;
+    this.jumpHeight = this.initJumpHeight;
+    this.jumpChargeRate = 10;
 
     // Variables
     this.persistentVelocityX = 0;
@@ -114,8 +117,14 @@ class MCAfricaFight extends Container {
     this.maxHP = 5;
     this.hp = this.maxHP;
     this.bulletEmitter = config.bulletEmitter;
+    this.enemies = config.enemies;
+
+    // Auto-shoot config
+    this.aimThreshold = 160000;
+    this.shootThreshold = 120000;
 
     this.shootLock = true; // Init the character with shooting disabled
+    this.bulletEmitter.stop();
     // this.hpBar = null;
     // this.hpBarStyle = null;
 
@@ -190,7 +199,24 @@ class MCAfricaFight extends Container {
 
       // Player jump logic
       if (up.isDown || W.isDown) {
+        this.setJump = true;
+
+        if (this.jumpHeight < this.maxJumpHeight)
+          this.jumpHeight += this.jumpChargeRate;
+      }
+      else if (this.setJump) {
         this.body.setVelocityY(-this.jumpHeight);
+	
+        // up.isDown = null;
+        // W.isDown = null;
+        
+        // setTimeout(() => {
+        //   if (up.isDown || W.isDown) {
+        //     this.body.setVelocityY(-this.jumpHeight * 1.5);
+        //   }
+        // }, 350);
+        this.jumpHeight = this.initJumpHeight;
+        this.setJump = false;
       }
 
       // Persist X velocity
@@ -225,55 +251,107 @@ class MCAfricaFight extends Container {
       this.persistentVelocityX = this.body.velocity.x;
     }
 
+    const mcX = this.x;
+    const mcY = this.y;
+    let newDistance = null;
+    let lastDistance = null;
+    let nearestEnemy = null;
+
+    this.enemies.children.entries.forEach((enemy) => {
+      enemy.setAlpha(0.25);
+      if (nearestEnemy === null) {
+        nearestEnemy = enemy;
+      }
+
+      newDistance = Phaser.Math.Distance.Squared(enemy.x, enemy.y, mcX, mcY);
+      lastDistance = Phaser.Math.Distance.Squared(nearestEnemy.x, nearestEnemy.y, mcX, mcY);
+
+      if (newDistance < lastDistance) {
+        nearestEnemy = enemy;
+      }
+    });
+
+    nearestEnemy.setAlpha(1);
+
+    const distanceToEnemy = Phaser.Math.Distance.Squared(nearestEnemy.x, nearestEnemy.y, mcX, mcY);
+    
+    if (distanceToEnemy <= this.aimThreshold) {
+      // Start aiming at nearestEnemy
+      const dX = (mcX - nearestEnemy.x);
+      const dY = (mcY - nearestEnemy.y);
+      const rad = window.Math.atan2(dX, dY);
+      this.aim(rad);
+
+      if (nearestEnemy.x < mcX) {
+        this.setFlipX(true);
+      }
+      else {
+        this.setFlipX(false);
+      }
+    }
+
+    if (distanceToEnemy <= this.shootThreshold) {
+      // Start shooting gun
+    }
+
+
+
+    // 1. Figure out the nearest enemy from the enemies array
+    // 2. Create an angle between the MC & the *nearest enemy (when within a distance threshold "aimThreshold")
+    //     - Iterate over enemies
+    //     - Calc distance to each
+    //     - Figure out nearest one
+    //     - Create angle (if within "aimThreshold")
+    // 3. If within a second distance threshold "shootThreshold", start auto-shooting w/ current weapon
+
     // Aim gun at the mouse
-    const spriteCenterX = ((window.innerWidth / 2) + (this.bodyWidth / 4));
-    const spriteCenterY = ((window.innerHeight / 2) + (this.bodyHeight / 4));
+    
 
     // Flip character to face mouse
-    if (this.lastPointerTouch) {
-      // Aiming
-      const dX = (spriteCenterX - pointer1.x);
-      const dY = (spriteCenterY - pointer1.y);
-      const rad = Math.atan2(dX, dY);
-      this.aim(rad);
+    // if (this.lastPointerTouch) {
+    //   // Aiming
+    //   const dX = (spriteCenterX - pointer1.x);
+    //   const dY = (spriteCenterY - pointer1.y);
+    //   const rad = Math.atan2(dX, dY);
+    //   this.aim(rad);
 
-      // Handle touch point n shoot controls
-      if (pointer1.x < spriteCenterX) {
-        this.setFlipX(true);
-      }
-      else {
-        this.setFlipX(false);
-      }
+    //   // Handle touch point n shoot controls
+    //   if (pointer1.x < spriteCenterX) {
+    //     this.setFlipX(true);
+    //   }
+    //   else {
+    //     this.setFlipX(false);
+    //   }
 
-      if (bothPointersDown && !this.shootLock) {
-        this.bulletEmitter.start();
-      }
-      else {
-        this.bulletEmitter.stop();
-      }
-    }
-    else {
-      // Handle desktop point n shoot controls
-      const dX = (spriteCenterX - mousePointer.x);
-      const dY = (spriteCenterY - mousePointer.y);
-      const rad = Math.atan2(dX, dY);
-      this.aim(rad);
+    //   if (bothPointersDown && !this.shootLock) {
+    //     this.bulletEmitter.start();
+    //   }
+    //   else {
+    //     this.bulletEmitter.stop();
+    //   }
+    // }
+    // else {
+    //   // Handle desktop point n shoot controls
+    //   const dX = (spriteCenterX - mousePointer.x);
+    //   const dY = (spriteCenterY - mousePointer.y);
+    //   const rad = Math.atan2(dX, dY);
+    //   this.aim(rad);
 
-      if (mousePointer.x < spriteCenterX) {
-        this.setFlipX(true);
-      }
-      else {
-        this.setFlipX(false);
-      }
+    //   if (mousePointer.x < spriteCenterX) {
+    //     this.setFlipX(true);
+    //   }
+    //   else {
+    //     this.setFlipX(false);
+    //   }
 
-      // Gun projectile logic (dummy)
-      if (mousePointer.isDown && !this.shootLock) {
-        this.bulletEmitter.start();
-      }
-      else {
-        this.bulletEmitter.stop();
-      }
-    }
+    //   // Gun projectile logic (dummy)
+    //   if (mousePointer.isDown && !this.shootLock) {
+    //     this.bulletEmitter.start();
+    //   }
+    //   else {
+    //     this.bulletEmitter.stop();
+    //   }
+    // }
     
     // Reduce X velocity when sliding along wall
     if (touchingWall) {
