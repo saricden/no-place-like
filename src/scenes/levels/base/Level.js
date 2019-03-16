@@ -293,18 +293,20 @@ class Level extends Scene {
   }
 
   updateScene() {
-    const {pointer1, pointer2} = this.input;
+    if (typeof process.env.NODE_ENV !== 'undefined' && process.env.NODE_ENV === 'development') {
+      const {pointer1, pointer2} = this.input;
 
-    this.pointer1Debug.setAlpha(0);
-    this.pointer2Debug.setAlpha(0);
+      this.pointer1Debug.setAlpha(0);
+      this.pointer2Debug.setAlpha(0);
 
-    if (pointer1.isDown) {
-      this.pointer1Debug.setAlpha(1);
-      this.pointer1Debug.setPosition(pointer1.worldX, pointer1.worldY);
-    }
-    if (pointer2.isDown) {
-      this.pointer2Debug.setAlpha(1);
-      this.pointer2Debug.setPosition(pointer2.worldX, pointer2.worldY);
+      if (pointer1.isDown) {
+        this.pointer1Debug.setAlpha(1);
+        this.pointer1Debug.setPosition(pointer1.worldX, pointer1.worldY);
+      }
+      if (pointer2.isDown) {
+        this.pointer2Debug.setAlpha(1);
+        this.pointer2Debug.setPosition(pointer2.worldX, pointer2.worldY);
+      }
     }
 
     // Bad guy hittests
