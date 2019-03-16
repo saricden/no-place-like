@@ -87,6 +87,7 @@ class MCAfricaFight extends Container {
     this.maxJumpHeight = this.initJumpHeight * 2;
     this.jumpHeight = this.initJumpHeight;
     this.jumpChargeRate = 10;
+    this.isJumping = false;
 
     // Variables
     this.persistentVelocityX = 0;
@@ -111,7 +112,6 @@ class MCAfricaFight extends Container {
     this.mcArmsOffsetRight = mcArmsOffsetRight;
     this.mcArmsOffsetLeft = mcArmsOffsetLeft;
     // this.bullets = bullets;
-    this.lastPointerTouch = false;
     this.touchRad = (Math.PI / 2);
     this.flipX = false;
     this.maxHP = 5;
@@ -172,13 +172,6 @@ class MCAfricaFight extends Container {
     const {W, D, A} = this.WSAD;
     const bothPointersDown = (pointer1.isDown && pointer2.isDown);
 
-    if (pointer1.isDown) {
-      this.lastPointerTouch = true;
-    }
-    else if (mousePointer.isDown) {
-      this.lastPointerTouch = false;
-    }
-
     if (this.shootLock && touchingGround) {
       this.shootLock = false;
     }
@@ -189,9 +182,13 @@ class MCAfricaFight extends Container {
       // Player left-right control logic
       if (left.isDown || A.isDown) {
         this.body.setVelocityX(-this.speed);
+        this.setFlipX(true);
+        this.aim(Math.PI * 0.8);
       }
       else if (right.isDown || D.isDown) {
         this.body.setVelocityX(this.speed);
+        this.setFlipX(false);
+        this.aim(Math.PI * 1.2);
       }
       else {
         this.body.setVelocityX(0);
@@ -199,24 +196,17 @@ class MCAfricaFight extends Container {
 
       // Player jump logic
       if (up.isDown || W.isDown) {
-        this.setJump = true;
+        this.isJumping = true;
 
         if (this.jumpHeight < this.maxJumpHeight)
           this.jumpHeight += this.jumpChargeRate;
       }
-      else if (this.setJump) {
-        this.body.setVelocityY(-this.jumpHeight);
-	
-        // up.isDown = null;
-        // W.isDown = null;
-        
-        // setTimeout(() => {
-        //   if (up.isDown || W.isDown) {
-        //     this.body.setVelocityY(-this.jumpHeight * 1.5);
-        //   }
-        // }, 350);
-        this.jumpHeight = this.initJumpHeight;
-        this.setJump = false;
+      else if (!pointer1.isDown) {
+        if (this.isJumping) {
+          this.body.setVelocityY(-this.jumpHeight);
+          this.jumpHeight = this.initJumpHeight;
+          this.isJumping = false;
+        }
       }
 
       // Persist X velocity
@@ -230,27 +220,49 @@ class MCAfricaFight extends Container {
       const touchingLeftEdge = (pointer1.position.x <= edgeWidth);
       const touchingRightEdge = (pointer1.position.x >= window.innerWidth - edgeWidth);
 
+      // console.log(pointer1.position.x);
+
       if (touchingLeftEdge) {
         this.body.setVelocityX(-this.speed);
+        this.setFlipX(true);
+        this.aim(Math.PI * 0.8);
       }
       else if (touchingRightEdge) {
         this.body.setVelocityX(this.speed);
+        this.setFlipX(false);
+        this.aim(Math.PI * 1.2);
       }
       else {
         this.body.setVelocityX(0);
       }
 
       // Player jump logic
-      const nudgeUp = ((this.pointer1DownY !== null) && (this.pointer1DownY - pointer1.position.y) > nudgeThreshold);
+      // Plz keep this code commented here for ref, we might use the nudge-swipe logic again
+      // const nudgeUp = ((this.pointer1DownY !== null) && (this.pointer1DownY - pointer1.position.y) > nudgeThreshold);
 
-      if (nudgeUp) {
-        this.body.setVelocityY(-this.jumpHeight);
+      // if (nudgeUp) {
+      //   this.body.setVelocityY(-this.jumpHeight);
+      // }
+
+      // Player jump logic v2
+      if (pointer2.isDown) {
+        this.isJumping = true;
+
+        this.jumpHeight += (this.jumpHeight < this.maxJumpHeight) ? this.jumpChargeRate : 0;
+      }
+      else {
+        if (this.isJumping) {
+          this.body.setVelocityY(-this.jumpHeight);
+          this.jumpHeight = this.initJumpHeight;
+          this.isJumping = false;
+        }
       }
 
       // Persist X velocity
       this.persistentVelocityX = this.body.velocity.x;
     }
 
+    // Select and aim at nearest enemy
     const mcX = this.x;
     const mcY = this.y;
     let newDistance = null;
@@ -258,40 +270,51 @@ class MCAfricaFight extends Container {
     let nearestEnemy = null;
 
     this.enemies.children.entries.forEach((enemy) => {
-      enemy.setAlpha(0.25);
-      if (nearestEnemy === null) {
-        nearestEnemy = enemy;
-      }
+      if (enemy !== null) {
+        enemy.setAlpha(0.25);
+        if (nearestEnemy === null) {
+          nearestEnemy = enemy;
+        }
 
-      newDistance = Phaser.Math.Distance.Squared(enemy.x, enemy.y, mcX, mcY);
-      lastDistance = Phaser.Math.Distance.Squared(nearestEnemy.x, nearestEnemy.y, mcX, mcY);
+        newDistance = Phaser.Math.Distance.Squared(enemy.x, enemy.y, mcX, mcY);
+        lastDistance = Phaser.Math.Distance.Squared(nearestEnemy.x, nearestEnemy.y, mcX, mcY);
 
-      if (newDistance < lastDistance) {
-        nearestEnemy = enemy;
+        if (newDistance < lastDistance) {
+          nearestEnemy = enemy;
+        }
       }
     });
 
-    nearestEnemy.setAlpha(1);
+    if (nearestEnemy !== null) {
+      nearestEnemy.setAlpha(1);
 
-    const distanceToEnemy = Phaser.Math.Distance.Squared(nearestEnemy.x, nearestEnemy.y, mcX, mcY);
-    
-    if (distanceToEnemy <= this.aimThreshold) {
-      // Start aiming at nearestEnemy
-      const dX = (mcX - nearestEnemy.x);
-      const dY = (mcY - nearestEnemy.y);
-      const rad = window.Math.atan2(dX, dY);
-      this.aim(rad);
+      const distanceToEnemy = Phaser.Math.Distance.Squared(nearestEnemy.x, nearestEnemy.y, mcX, mcY);
+      
+      if (distanceToEnemy <= this.aimThreshold) {
+        // Start aiming at nearestEnemy
+        const dX = (mcX - nearestEnemy.x);
+        const dY = (mcY - nearestEnemy.y);
+        const rad = window.Math.atan2(dX, dY);
+        this.aim(rad);
 
-      if (nearestEnemy.x < mcX) {
-        this.setFlipX(true);
+        if (nearestEnemy.x < mcX) {
+          this.setFlipX(true);
+        }
+        else {
+          this.setFlipX(false);
+        }
+      }
+
+      if (distanceToEnemy <= this.shootThreshold) {
+        // Start shooting gun
+        this.bulletEmitter.start();
       }
       else {
-        this.setFlipX(false);
+        this.bulletEmitter.stop();
       }
     }
-
-    if (distanceToEnemy <= this.shootThreshold) {
-      // Start shooting gun
+    else {
+      this.bulletEmitter.stop();
     }
 
 

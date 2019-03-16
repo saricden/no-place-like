@@ -162,6 +162,19 @@ class Level extends Scene {
 
     // Set camera follow
     this.cameras.main.startFollow(this.mc);
+
+    // Extra debugging goodies for development mode!
+    if (typeof process.env.NODE_ENV !== 'undefined' && process.env.NODE_ENV === 'development') {
+      this.pointer1Debug = this.add.image(mcX, mcY, 'rotator-enemy');
+      this.pointer1Debug.setScale(0.08);
+      this.pointer1Debug.setTint(0xff0000);
+      this.pointer1Debug.setDepth(5);
+
+      this.pointer2Debug = this.add.image(mcX + 50, mcY, 'rotator-enemy');
+      this.pointer2Debug.setScale(0.08);
+      this.pointer2Debug.setTint(0x0000ff);
+      this.pointer2Debug.setDepth(5);
+    }
   }
 
   showSubtitle(line) {
@@ -280,6 +293,20 @@ class Level extends Scene {
   }
 
   updateScene() {
+    const {pointer1, pointer2} = this.input;
+
+    this.pointer1Debug.setAlpha(0);
+    this.pointer2Debug.setAlpha(0);
+
+    if (pointer1.isDown) {
+      this.pointer1Debug.setAlpha(1);
+      this.pointer1Debug.setPosition(pointer1.worldX, pointer1.worldY);
+    }
+    if (pointer2.isDown) {
+      this.pointer2Debug.setAlpha(1);
+      this.pointer2Debug.setPosition(pointer2.worldX, pointer2.worldY);
+    }
+
     // Bad guy hittests
     this.enemies.children.entries.forEach((enemy) => {
       if (this.mc.body.hitTest(enemy.x, enemy.y)) {
