@@ -272,15 +272,33 @@ class MCAfricaFight extends Container {
     this.enemies.children.entries.forEach((enemy) => {
       if (enemy !== null) {
         enemy.setAlpha(0.25);
-        if (nearestEnemy === null) {
-          nearestEnemy = enemy;
+
+        if (this.scene.game.flags.targeting === 'front-and-back') {
+          if (nearestEnemy === null) {
+            nearestEnemy = enemy;
+          }
+
+          newDistance = Phaser.Math.Distance.Squared(enemy.x, enemy.y, mcX, mcY);
+          lastDistance = Phaser.Math.Distance.Squared(nearestEnemy.x, nearestEnemy.y, mcX, mcY);
+
+          if (newDistance < lastDistance) {
+            nearestEnemy = enemy;
+          }
         }
+        else if (this.scene.game.flags.targeting === 'front-only') {
+          // if we're facing left, check if enemy is on left side, or if we're facing right and it's on our right side
+          if ((this.flipX && enemy.x <= this.x) || (!this.flipX && enemy.x >= this.x)) {
+            if (nearestEnemy === null) {
+              nearestEnemy = enemy;
+            }
 
-        newDistance = Phaser.Math.Distance.Squared(enemy.x, enemy.y, mcX, mcY);
-        lastDistance = Phaser.Math.Distance.Squared(nearestEnemy.x, nearestEnemy.y, mcX, mcY);
+            newDistance = Phaser.Math.Distance.Squared(enemy.x, enemy.y, mcX, mcY);
+            lastDistance = Phaser.Math.Distance.Squared(nearestEnemy.x, nearestEnemy.y, mcX, mcY);
 
-        if (newDistance < lastDistance) {
-          nearestEnemy = enemy;
+            if (newDistance < lastDistance) {
+              nearestEnemy = enemy;
+            }
+          }
         }
       }
     });

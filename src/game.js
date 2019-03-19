@@ -9,6 +9,9 @@ import AfricaCampLevel from './scenes/levels/AfricaCampLevel';
 import TestLevel from './scenes/levels/TestLevel';
 import Level1 from './scenes/levels/Level1';
 
+// UIs
+import PauseMenu from './scenes/ui/PauseMenu';
+
 const canvas = document.getElementById('game-canvas');
 const config = {
   type: Phaser.AUTO,
@@ -28,7 +31,8 @@ const config = {
     TitleScene,
     AfricaCampLevel,
     TestLevel,
-    Level1
+    Level1,
+    PauseMenu
   ],
   pixelArt: true
 };

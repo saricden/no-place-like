@@ -10,6 +10,13 @@ class Level extends Scene {
     // Enable multi-touch
     this.input.addPointer(2);
 
+    // Init our level's feature-flags
+    if (typeof this.game.flags === 'undefined') {
+      this.game.flags = {
+        targeting: 'front-and-back'
+      };
+    }
+
     // Add enemies & NPCs to respective physics groups
     this.enemies = this.physics.add.group(enemies, {});
     this.NPCs = this.physics.add.group(NPCs, {});
@@ -147,6 +154,13 @@ class Level extends Scene {
     this.ansRight.setAlpha(0);
     this.ansRight.setInteractive();
 
+    // Add our pause button
+    this.pauseBtn = this.add.image(window.innerWidth - 30, 30, 'ui-ham');
+    this.pauseBtn.setScale(0.5);
+    this.pauseBtn.setScrollFactor(0);
+    this.pauseBtn.setInteractive();
+    this.pauseBtn.on('pointerdown', this.pauseGame, this);
+
     // Setup our layering
     this.behindLayer.setDepth(1);
     this.aboveLayer.setDepth(4);
@@ -159,6 +173,7 @@ class Level extends Scene {
     this.subtitle.setDepth(5);
     this.ansLeft.setDepth(5);
     this.ansRight.setDepth(5);
+    this.pauseBtn.setDepth(5);
 
     // Set camera follow
     this.cameras.main.startFollow(this.mc);
@@ -177,6 +192,11 @@ class Level extends Scene {
     }
   }
 
+  pauseGame() {
+    this.scene.pause();
+    this.scene.launch('ui-pause-menu');
+  }
+
   showSubtitle(line) {
     return new Promise((resolve, reject) => {
       this.subtitle.setText(line);
@@ -191,7 +211,6 @@ class Level extends Scene {
         repeat: 0,
         onComplete: function () { 
           resolve();
-          console.log('asjidf');
         }
       });
     });
