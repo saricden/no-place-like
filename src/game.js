@@ -14,7 +14,7 @@ import PauseMenu from './scenes/ui/PauseMenu';
 
 const canvas = document.getElementById('game-canvas');
 const config = {
-  type: Phaser.AUTO,
+  type: Phaser.WEBGL,
   width: window.innerWidth,
   height: window.innerHeight,
   canvas,
