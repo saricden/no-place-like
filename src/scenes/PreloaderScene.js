@@ -11,6 +11,7 @@ class PreloaderScene extends Scene {
     this.load.image('title-robo', 'assets/images/title-robo.png');
     this.load.image('new-game-btn', 'assets/images/new-game-btn.png');
     this.load.image('load-game-btn', 'assets/images/load-game-btn.png');
+    this.load.image('credits-btn', 'assets/images/credits-btn.png');
     this.load.image('title-hill1', 'assets/images/title-hill1.png');
     this.load.image('dummy-platform', 'assets/images/dummy/dummy-platform.png');
     this.load.image('dummy-projectile', 'assets/images/dummy/dummy-projectile.png');
@@ -130,10 +131,15 @@ class PreloaderScene extends Scene {
       repeat: -1
     });
 
+    // Create dynamic textures.
+    this.textures.createCanvas('mist-gradient', window.innerWidth, window.innerHeight);
+
     // Called after preload, used to initialize your scene
     if (typeof process.env.NODE_ENV !== 'undefined' && process.env.NODE_ENV === 'development') {
       // Replace this w/ whatever scene you're working on
-      this.scene.start('level-level1');
+      this.scene.start('title-scene');
+      // this.scene.start('credits');
+      // this.scene.start('level-level1');
       // this.scene.start('title-scene');
 
     }

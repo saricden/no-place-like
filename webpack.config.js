@@ -1,9 +1,10 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const dotenv = require('dotenv').config({path: __dirname + '/.env'});
+const webpack = require('webpack');
 
 module.exports = {
-  entry: ['@babel/polyfill', './src'],
   module: {
     rules: [
       {
@@ -39,12 +40,14 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: './src/assets', to: 'assets' }
-    ])
+    ]),
+    new webpack.DefinePlugin({
+      "process.env": dotenv.parsed,
+      "test": true
+    }),
   ],
   devServer: {
     compress: true,
-
     disableHostCheck: true,   // That solved it
-
-  }  
+  }
 };

@@ -1,0 +1,66 @@
+[debug] [2019-03-21T08:33:34.899Z] ----------------------------------------------------------------------
+[debug] [2019-03-21T08:33:34.903Z] Command:       /usr/bin/node /usr/local/bin/firebase serve
+[debug] [2019-03-21T08:33:34.903Z] CLI Version:   6.5.0
+[debug] [2019-03-21T08:33:34.903Z] Platform:      linux
+[debug] [2019-03-21T08:33:34.903Z] Node Version:  v8.11.4
+[debug] [2019-03-21T08:33:34.903Z] Time:          Thu Mar 21 2019 01:33:34 GMT-0700 (PDT)
+[debug] [2019-03-21T08:33:34.904Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-03-21T08:33:34.915Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-03-21T08:33:34.915Z] > authorizing via signed-in user
+[debug] [2019-03-21T08:33:34.915Z] [iam] checking project no-place-like-445c8 for permissions ["firebase.projects.get"]
+[debug] [2019-03-21T08:33:34.918Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/no-place-like-445c8:testIamPermissions  
+
+[debug] [2019-03-21T08:33:35.090Z] <<< HTTP RESPONSE 200
+[debug] [2019-03-21T08:33:35.092Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/no-place-like-445c8  
+ 
+[debug] [2019-03-21T08:33:35.542Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/kirk/Games/no-place-like'...
+[info] 
+[debug] [2019-03-21T08:33:36.253Z] Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/logs'
+    at Object.fs.mkdirSync (fs.js:885:18)
+    at Object.assertLogsPath (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/emulator/logs.js:65:10)
+    at new Controller (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/cli/controller.js:77:32)
+    at FunctionsEmulator.start (/usr/local/lib/node_modules/firebase-tools/lib/functionsEmulator.js:102:23)
+    at Object.start (/usr/local/lib/node_modules/firebase-tools/lib/serve/functions.js:7:33)
+    at /usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:15:23
+    at arrayMap (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:639:23)
+    at Function.map (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:9556:14)
+    at _serve (/usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:13:26)
+    at Command.module.exports.Command.description.option.option.option.option.before.action [as _action] (/usr/local/lib/node_modules/firebase-tools/lib/commands/serve.js:55:12)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2019-03-21T08:34:30.499Z] ----------------------------------------------------------------------
+[debug] [2019-03-21T08:34:30.502Z] Command:       /usr/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2019-03-21T08:34:30.502Z] CLI Version:   6.5.0
+[debug] [2019-03-21T08:34:30.502Z] Platform:      linux
+[debug] [2019-03-21T08:34:30.502Z] Node Version:  v8.11.4
+[debug] [2019-03-21T08:34:30.502Z] Time:          Thu Mar 21 2019 01:34:30 GMT-0700 (PDT)
+[debug] [2019-03-21T08:34:30.502Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-03-21T08:34:30.515Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-03-21T08:34:30.515Z] > authorizing via signed-in user
+[debug] [2019-03-21T08:34:30.515Z] [iam] checking project no-place-like-445c8 for permissions ["firebase.projects.get"]
+[debug] [2019-03-21T08:34:30.517Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/no-place-like-445c8:testIamPermissions  
+
+[debug] [2019-03-21T08:34:30.714Z] <<< HTTP RESPONSE 200
+[debug] [2019-03-21T08:34:30.717Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/no-place-like-445c8  
+ 
+[debug] [2019-03-21T08:34:30.959Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/kirk/Games/no-place-like'...
+[info] 
+[debug] [2019-03-21T08:34:31.631Z] Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/logs'
+    at Object.fs.mkdirSync (fs.js:885:18)
+    at Object.assertLogsPath (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/emulator/logs.js:65:10)
+    at new Controller (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/cli/controller.js:77:32)
+    at FunctionsEmulator.start (/usr/local/lib/node_modules/firebase-tools/lib/functionsEmulator.js:102:23)
+    at Object.start (/usr/local/lib/node_modules/firebase-tools/lib/serve/functions.js:7:33)
+    at /usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:15:23
+    at arrayMap (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:639:23)
+    at Function.map (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:9556:14)
+    at _serve (/usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:13:26)
+    at Command.module.exports.Command.description.option.option.option.option.before.action [as _action] (/usr/local/lib/node_modules/firebase-tools/lib/commands/serve.js:55:12)
+[error] 
+[error] Error: An unexpected error has occurred.

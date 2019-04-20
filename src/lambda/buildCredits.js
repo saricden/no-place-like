@@ -1,13 +1,24 @@
 const axios = require('axios');
-const fs = require('fs');
+const admin = require('firebase-admin');
+const serviceAccount = require('../firebaseServiceAccountKey.json');
 require('dotenv').config();
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: process.env.firebase_databaseURL
+});
+
+const db = admin.firestore();
+
+// DO NOT CONSOLE LOG YOUR DB ON A LIVESTREAM KIRK. THIS REVEALS YOUR SUPER TOP SECRET CREDS.
+// console.log(db);
+
 exports.handler = (event, context, callback) => {
-     const config = {
+    const config = {
       headers: {
         'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-ID': '0ut7n7q1hvzr4rtl8az8q2f9uy5un0',
-        'Authorization':  'Bearer cc4yqk3a0f3r0hm9fxxamyuyq7t8kh'
+        'Client-ID': '...',
+        'Authorization':  'Bearer ...'
       }
     };
 
@@ -21,17 +32,19 @@ exports.handler = (event, context, callback) => {
     .then((response) => {
 
       const subs = JSON.stringify(response.data);
-      fs.writeFileSync('subs.json', subs);
 
-       callback(null, {
-         statusCode: 200,
-         body: JSON.stringify(response.data)
-       });
-      // do dis try now
-
-      // yo thanks so much dawg
-      // I was a wreck for most of that xD
-      
+      db.collection('test').get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(`${doc.id} => ${doc.data()}`);
+        });
+        
+        callback(null, {
+          statusCode: 200,
+          body: subs
+        });
+      }).catch((error) => {
+        console.log('oooooh nuuuuuuuu!!! T_T', error);
+      });
     }).catch((error) => {
       // console.log(error.response.data);
       // I literally made this up, I have no idea what interface callback is

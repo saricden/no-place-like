@@ -3,6 +3,7 @@ import Phaser, {Game} from 'phaser';
 import BootScene from './scenes/BootScene';
 import PreloaderScene from './scenes/PreloaderScene';
 import TitleScene from './scenes/TitleScene';
+import CreditsScene from './scenes/CreditsScene';
 
 // Levels
 import AfricaCampLevel from './scenes/levels/AfricaCampLevel';
@@ -26,6 +27,7 @@ const config = {
     BootScene,
     PreloaderScene,
     TitleScene,
+    CreditsScene,
     AfricaCampLevel,
     TestLevel,
     Level1

@@ -1,4 +1,4 @@
-import {Scene} from 'phaser';
+import {Scene, Input} from 'phaser';
 
 class TitleScene extends Scene {
   constructor() {
@@ -25,7 +25,7 @@ class TitleScene extends Scene {
     robo.setPosition(centerX, roboStartY);
 
     // Configure the 'mist' gradient
-    const mistTexture = this.textures.createCanvas('mist-gradient', window.innerWidth, (robo.displayHeight / 2));
+    const mistTexture = this.textures.list['mist-gradient'];
     const mistSrc = mistTexture.getSourceImage();
     const mistContext = mistSrc.getContext('2d');
     const mistGradient = mistContext.createLinearGradient(0, 0, 0, (robo.displayHeight / 2));
@@ -53,9 +53,9 @@ class TitleScene extends Scene {
     hill1.setScale(0.6);
 
     // Place logo
-    const logoStartY = (window.innerHeight + robo.displayHeight - 200);
-    const logoEndY = (window.innerHeight - 200);
-    const logoWidth = (window.innerWidth - 200);
+    const logoStartY = (window.innerHeight + robo.displayHeight - 300);
+    const logoEndY = (window.innerHeight - 300);
+    const logoWidth = (window.innerWidth - 300);
     const logoScalar = ((logoWidth / window.innerWidth) - 0.25); // TODO: Figure out actual math here, not just 0.25
 
     const logo = this.add.image(uiX, logoStartY, 'logo');
@@ -63,8 +63,8 @@ class TitleScene extends Scene {
     logo.setScale(logoScalar);
 
     // Place new game button
-    const newGameBtnStartY = (window.innerHeight + robo.displayHeight - 175);
-    const newGameBtnEndY = (window.innerHeight - 175);
+    const newGameBtnStartY = (window.innerHeight + robo.displayHeight - 255);
+    const newGameBtnEndY = (window.innerHeight - 255);
     
     const newGameBtn = this.physics.add.sprite(uiX, newGameBtnStartY, 'new-game-btn');
     newGameBtn.setOrigin(1, 0.5);
@@ -72,13 +72,21 @@ class TitleScene extends Scene {
     newGameBtn.body.setAllowGravity(false);
 
     // Place load game button
-    const loadGameBtnStartY = (window.innerHeight + robo.displayHeight - 90);
-    const loadGameBtnEndY = (window.innerHeight - 90);
+    const loadGameBtnStartY = (window.innerHeight + robo.displayHeight - 160);
+    const loadGameBtnEndY = (window.innerHeight - 160);
     
     const loadGameBtn = this.add.image(uiX, loadGameBtnStartY, 'load-game-btn');
     loadGameBtn.setOrigin(1, 0.5);
     loadGameBtn.setScale(0.5);
 
+    // Place credits button
+    const creditBtnStartY = (window.innerHeight + robo.displayHeight - 110);
+    const creditBtnEndY = (window.innerHeight - 110);
+    
+    const creditBtn = this.add.image(uiX, creditBtnStartY, 'credits-btn');
+    creditBtn.setOrigin(1, 0.5);
+    creditBtn.setScale(0.5);
+    
 
     // Start tweening
     this.tweens.add({
@@ -135,11 +143,38 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
+    this.tweens.add({
+      targets: creditBtn,
+      y: creditBtnEndY,
+      ease: 'Power1',
+      duration: 15000,
+      yoyo: false,
+      repeat: 0
+    });
+
     // UI Functionality
     newGameBtn.setInteractive();
     newGameBtn.on('pointerdown', this.newGame.bind(this));
     loadGameBtn.setInteractive();
     loadGameBtn.on('pointerdown', this.loadGame.bind(this));
+    creditBtn.setInteractive();
+    creditBtn.on('pointerdown', this.showCredits.bind(this));
+
+    this.secretTwitchKey = this.input.keyboard.addKey(Input.Keyboard.KeyCodes.S);
+    this.twitchOAuthURL = 'https://id.twitch.tv/oauth2/authorize?client_id=1g00dogpvxogbnmqwv88k72y529jtj&redirect_uri=https://us-central1-no-place-like-445c8.cloudfunctions.net/updateTwitchSubs&response_type=code&scope=channel:read:subscriptions';
+    this.keyLock = false;
+  }
+
+  update() {
+    if (!this.keyLock && this.secretTwitchKey.isDown) {
+      this.keyLock = true;
+      const win = window.open(this.twitchOAuthURL, '_blank');
+      win.focus();
+    }
+  }
+
+  showCredits() {
+    this.scene.start('credits');
   }
 
   newGame() {

@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --mode development --entry ./src/game.js --open",
     "build": "webpack --mode production --entry ./src/game.js --output ./dist/game.js",
     "dev": "webpack --mode development --entry ./src/game.js --output ./dist/game.js",
-    "start-lambda": "netlify-lambda serve src/lambda",
+    "start-lambda": "netlify-lambda serve src/lambda --config ./webpack.functions.js",
     "build-lambda": "netlify-lambda build src/lambda"
   },
   "repository": {
@@ -36,8 +36,12 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "@firebase/app": "^0.3.13",
+    "@firebase/firestore": "^1.1.2",
     "axios": "^0.18.0",
     "dotenv": "^6.2.0",
+    "firebase-admin": "^7.1.0",
+    "firebase-functions": "^2.2.1",
     "phaser": "^3.15.1"
   }
 }
