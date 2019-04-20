@@ -7,7 +7,9 @@ class TestLevel extends Level {
 
   create() {
     this.initScene({
-      tilemapKey: 'test-map'
+      tilemapKey: 'test-map',
+      mcX: 1000,
+      mxY: 0
     });
   }
 
