@@ -26,7 +26,7 @@ class PreloaderScene extends Scene {
     this.load.multiatlas('mc-africa', 'assets/images/sprites/mc-africa/packed/mc-africa.json', 'assets/images/sprites/mc-africa/packed');
     this.load.multiatlas('mc-africa-noarms', 'assets/images/sprites/mc-africa-noarms/packed/mc-africa-noarms.json', 'assets/images/sprites/mc-africa-noarms/packed');
     this.load.multiatlas('bolt-pistol2', 'assets/images/sprites/bolt-pistol2/packed/bolt-pistol2.json', 'assets/images/sprites/bolt-pistol2/packed');
-    this.load.multiatlas('jump-blaster', 'assets/images/sprites/jump-blaster/packed/jump-blaster.json', 'assets/images/sprites/jump-blaster/packed');
+    this.load.multiatlas('jump-blaster', 'assets/images/sprites/jump-blaster/packed-scaled/jump-blaster.json', 'assets/images/sprites/jump-blaster/packed-scaled');
 
     this.load.image('basic-tiles', 'assets/images/tilemaps/basic.png');
     this.load.tilemapTiledJSON('africa-camp-map', 'assets/maps/africa-camp.json');
