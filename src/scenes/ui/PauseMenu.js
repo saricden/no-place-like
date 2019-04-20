@@ -1,6 +1,4 @@
-import {Scene, Geom} from 'phaser';
-
-const {Rectangle} = Geom;
+import {Scene} from 'phaser';
 
 class PauseMenu extends Scene {
   constructor() {
@@ -13,188 +11,73 @@ class PauseMenu extends Scene {
     this.targetingBtn.setText(this.game.flags.targeting);
   }
 
-  closePauseMenu() {
-    this.tweens.add({
-      targets: this.gfxBG,
-      alpha: 0,
-      ease: 'Power1',
-      duration: 200,
-      yoyo: false,
-      repeat: 0,
-      onComplete: () => {
-        this.scene.resume('africa-camp');
-        this.scene.stop();
-      }
-    });
+  create() {
+    // Scene management
+    this.openMenu = null;
 
-    this.tweens.add({
-      targets: this.mainTitle,
-      alpha: 0,
-      ease: 'Power1',
-      duration: 200,
-      yoyo: false,
-      repeat: 0
-    });
+    // Config button end positions
+    const inventoryX = 130;
+    const inventoryY = 30;
+    const systemX = 100;
+    const systemY = 100;
+    const partyX = 30;
+    const partyY = 130;
 
-    this.tweens.add({
-      targets: this.targetingTitle,
-      alpha: 0,
-      ease: 'Power1',
-      duration: 200,
-      yoyo: false,
-      repeat: 0
-    });
+    // Instantiate buttons offscreen
+    this.btnInventory = this.add.image(window.innerWidth + 50, -50, 'ui-inventory');
+    this.btnInventory.setScale(0.45);
+    this.btnSystem = this.add.image(window.innerWidth + 50, -50, 'ui-system');
+    this.btnSystem.setScale(0.45);
+    this.btnParty = this.add.image(window.innerWidth + 50, -50, 'ui-party');
+    this.btnParty.setScale(0.45);
 
+    this.btnSystem.setInteractive();
+    this.btnSystem.on('pointerdown', this.openSystemMenu, this);
+
+    this.btnInventory.setInteractive();
+    this.btnInventory.on('pointerdown', this.openInventoryMenu, this);
+
+    // Start dem tweens
     this.tweens.add({
-      targets: this.targetingBtn,
-      alpha: 0,
+      targets: this.btnInventory,
+      x: (window.innerWidth - inventoryX),
+      y: inventoryY,
       ease: 'Power1',
-      duration: 200,
+      duration: 300,
       yoyo: false,
       repeat: 0
     });
-
     this.tweens.add({
-      targets: this.closeBtn,
-      alpha: 0,
+      targets: this.btnSystem,
+      x: (window.innerWidth - systemX),
+      y: systemY,
       ease: 'Power1',
-      duration: 200,
+      duration: 300,
+      yoyo: false,
+      repeat: 0
+    });
+    this.tweens.add({
+      targets: this.btnParty,
+      x: (window.innerWidth - partyX),
+      y: partyY,
+      ease: 'Power1',
+      duration: 300,
       yoyo: false,
       repeat: 0
     });
   }
 
-  create() {
-    const bgRect = new Rectangle(0, 0, window.innerWidth, window.innerHeight);
+  openSystemMenu() {
+    this.scene.manager.stop('ui-inventory-menu');
+    // this.scene.manager.stop('ui-inventory-menu');
 
-    this.gfxBG = this.add.graphics({
-      x: 0,
-      y: 0,
-      fillStyle: { color: 0x000000 }
-    });
-    this.gfxBG.setScrollFactor(0);
-    this.gfxBG.setAlpha(0);
+    this.scene.launch('ui-system-menu');
+  }
 
-    this.gfxBG.fillRectShape(bgRect);
+  openInventoryMenu() {
+    this.scene.manager.stop('ui-system-menu');
 
-    this.mainTitle = this.add.text(window.innerWidth, 80, 'MENU', {
-      fontFamily: 'Sans Serif',
-      fontSize: 42,
-      color: '#FFF',
-      stroke: '#000',
-      strokeThickness: 3,
-      align: 'right',
-      padding: 40,
-      wordWrap: {
-        width: window.innerWidth,
-        useAdvancedWrap: true
-      }
-    });
-    this.mainTitle.setOrigin(1, 0.5);
-    this.mainTitle.setScrollFactor(0);
-    this.mainTitle.setAlpha(0);
-
-    this.targetingTitle = this.add.text(window.innerWidth, 160, 'EXPERIMENTAL TARGETING MODE:', {
-      fontFamily: 'Sans Serif',
-      fontSize: 18,
-      color: '#FFF',
-      stroke: '#000',
-      strokeThickness: 3,
-      align: 'right',
-      padding: 40,
-      wordWrap: {
-        width: window.innerWidth,
-        useAdvancedWrap: true
-      }
-    });
-    this.targetingTitle.setOrigin(1, 0.5);
-    this.targetingTitle.setScrollFactor(0);
-    this.targetingTitle.setAlpha(0);
-
-    this.targetingBtn = this.add.text(window.innerWidth, 190, this.game.flags.targeting, {
-      fontFamily: 'Sans Serif',
-      fontSize: 24,
-      color: '#FFF',
-      stroke: '#000',
-      strokeThickness: 3,
-      align: 'right',
-      padding: 40,
-      wordWrap: {
-        width: window.innerWidth,
-        useAdvancedWrap: true
-      }
-    });
-    this.targetingBtn.setOrigin(1, 0.5);
-    this.targetingBtn.setScrollFactor(0);
-    this.targetingBtn.setAlpha(0);
-    this.targetingBtn.setInteractive();
-    this.targetingBtn.on('pointerdown', this.toggleTargetingMode, this);
-
-    this.closeBtn = this.add.text(window.innerWidth, window.innerHeight - 80, 'CLOSE MENU', {
-      fontFamily: 'Sans Serif',
-      fontSize: 24,
-      color: '#FFF',
-      stroke: '#000',
-      strokeThickness: 3,
-      align: 'right',
-      padding: 40,
-      wordWrap: {
-        width: window.innerWidth,
-        useAdvancedWrap: true
-      }
-    });
-    this.closeBtn.setOrigin(1, 0.5);
-    this.closeBtn.setScrollFactor(0);
-    this.closeBtn.setAlpha(0);
-    this.closeBtn.setInteractive();
-    this.closeBtn.on('pointerdown', this.closePauseMenu, this);
-
-
-    // Animate in (tweens)
-    this.tweens.add({
-      targets: this.gfxBG,
-      alpha: 0.75,
-      ease: 'Power1',
-      duration: 200,
-      yoyo: false,
-      repeat: 0
-    });
-
-    this.tweens.add({
-      targets: this.mainTitle,
-      alpha: 1,
-      ease: 'Power1',
-      duration: 200,
-      yoyo: false,
-      repeat: 0
-    });
-
-    this.tweens.add({
-      targets: this.targetingTitle,
-      alpha: 1,
-      ease: 'Power1',
-      duration: 200,
-      yoyo: false,
-      repeat: 0
-    });
-
-    this.tweens.add({
-      targets: this.targetingBtn,
-      alpha: 1,
-      ease: 'Power1',
-      duration: 200,
-      yoyo: false,
-      repeat: 0
-    });
-
-    this.tweens.add({
-      targets: this.closeBtn,
-      alpha: 1,
-      ease: 'Power1',
-      duration: 200,
-      yoyo: false,
-      repeat: 0
-    });
+    this.scene.launch('ui-inventory-menu');
   }
 
   update() {
