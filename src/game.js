@@ -11,6 +11,8 @@ import Level1 from './scenes/levels/Level1';
 
 // UIs
 import PauseMenu from './scenes/ui/PauseMenu';
+import SystemMenu from './scenes/ui/SystemMenu';
+import InventoryMenu from './scenes/ui/InventoryMenu';
 
 const canvas = document.getElementById('game-canvas');
 const config = {
@@ -32,7 +34,9 @@ const config = {
     AfricaCampLevel,
     TestLevel,
     Level1,
-    PauseMenu
+    PauseMenu,
+    SystemMenu,
+    InventoryMenu
   ],
   pixelArt: true
 };
