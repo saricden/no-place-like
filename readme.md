@@ -43,3 +43,11 @@ Rage at their creators for burdening them with the task of finding a new pristin
 The humans, they decide, must be destroyed. To prevent further harm to a universe that otherwise operates like clockwork. They see us as a broken cog, disrupting the entire system.
 
 And hence begins an all out war between the human race, in perhaps it's weakest moment, against the strongest weapons we've ever engineered.
+
+## Contributors
+
+[Saricden (Owner)](https://github.com/saricden)
+
+[Ghostslayer989 (Collaborator)](https://github.com/ghostslayer989)
+
+[Reactions (Artist)](https://www.patreon.com/reactions)

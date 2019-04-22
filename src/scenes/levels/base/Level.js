@@ -1,5 +1,7 @@
-import {Scene} from 'phaser';
+import {Scene, Geom} from 'phaser';
 import MCAfrica from '../../../sprites/pc/MCAfrica';
+
+const {Rectangle} = Geom;
 
 class Level extends Scene {
   initScene({bgColor = '#f5efbf', MCClass = MCAfrica, tilemapKey = 'africa-camp-map', tilesetName = 'Basic', tilesetImage = 'basic-tiles', collisionTiles = [[1, 4], [8, 11], [15, 16]], enemies = [], NPCs = [], mcX = 500, mcY = 1100}) {    
@@ -155,11 +157,28 @@ class Level extends Scene {
     this.ansRight.setInteractive();
 
     // Add our pause button
-    this.pauseBtn = this.add.image(window.innerWidth - 30, 30, 'ui-ham');
-    this.pauseBtn.setScale(0.5);
-    this.pauseBtn.setScrollFactor(0);
-    this.pauseBtn.setInteractive();
-    this.pauseBtn.on('pointerdown', this.pauseGame, this);
+    // this.pauseBtn = this.add.image(window.innerWidth - 30, 30, 'ui-ham');
+    // this.pauseBtn.setScale(0.5);
+    // this.pauseBtn.setScrollFactor(0);
+    // this.pauseBtn.setInteractive();
+    // this.pauseBtn.on('pointerdown', this.pauseGame, this);
+    this.menuBtn = this.add.image(window.innerWidth + 2, -2, 'ui-menu');
+    this.menuBtn.setOrigin(1, 0);
+    this.menuBtn.setScale(0.5);
+    this.menuBtn.setScrollFactor(0);
+    this.menuBtn.setInteractive();
+
+    this.menuBtn.on('pointerdown', this.openMenu, this);
+
+    const tintRect = new Rectangle(0, 0, window.innerWidth, window.innerHeight);
+    this.viewportTint = this.add.graphics({
+      x: 0,
+      y: 0,
+      fillStyle: { color: 0x000000 }
+    });
+    this.viewportTint.setScrollFactor(0);
+    this.viewportTint.setAlpha(0);
+    this.viewportTint.fillRectShape(tintRect);
 
     // Setup our layering
     this.behindLayer.setDepth(1);
@@ -169,11 +188,12 @@ class Level extends Scene {
     bullets.setDepth(2);
     this.enemies.setDepth(2);
     this.NPCs.setDepth(2);
-    this.hpText.setDepth(5);
-    this.subtitle.setDepth(5);
-    this.ansLeft.setDepth(5);
-    this.ansRight.setDepth(5);
-    this.pauseBtn.setDepth(5);
+    this.viewportTint.setDepth(5);
+    this.hpText.setDepth(6);
+    this.subtitle.setDepth(6);
+    this.ansLeft.setDepth(6);
+    this.ansRight.setDepth(6);
+    this.menuBtn.setDepth(6);
 
     // Set camera follow
     this.cameras.main.startFollow(this.mc);
@@ -192,7 +212,8 @@ class Level extends Scene {
     }
   }
 
-  pauseGame() {
+  openMenu() {
+    this.viewportTint.setAlpha(0.5);
     this.scene.pause();
     this.scene.launch('ui-pause-menu');
   }

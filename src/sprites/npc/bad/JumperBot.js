@@ -13,8 +13,8 @@ class JumperBot extends Enemy {
     this.jumpHeight = 600;
 
     // Setup physics properties
-    this.body.setSize(939, 848);
-    this.setScale(0.1);
+    this.body.setSize(300, 285);
+    this.setScale(0.35);
   }
 
   jump(coinToss) {
