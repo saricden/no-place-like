@@ -4,6 +4,8 @@ No Place Like is an open source adventure-platformer game which takes place in t
 
 [Live Demo](https://no-place-like.netlify.com/)
 
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
+
 ## Story
 
 The story of No Place Like takes place in a (hopefully) alternate version of Earth.
