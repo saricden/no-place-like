@@ -50,6 +50,6 @@ And hence begins an all out war between the human race, in perhaps it's weakest 
 
 [Saricden (Owner)](https://github.com/saricden)
 
-[Ghostslayer989 (Collaborator)](https://github.com/ghostslayer989)
+[Ghostslayer989 (Collaborator)](https://github.com/mou-ikkai)
 
 [Reactions (Artist)](https://www.patreon.com/reactions)
