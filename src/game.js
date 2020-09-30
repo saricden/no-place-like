@@ -19,6 +19,7 @@ const config = {
   type: Phaser.WEBGL,
   width: window.innerWidth,
   height: window.innerHeight,
+  mode: Phaser.Scale.RESIZE,
   canvas,
   physics: {
     default: 'arcade',
