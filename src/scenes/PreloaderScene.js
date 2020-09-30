@@ -38,7 +38,7 @@ class PreloaderScene extends Scene {
 
     let loadingBar = this.add.graphics({
       fillStyle :{
-        color: 0xffffff
+        color: 0x7DF9FF
       }
     });
 
