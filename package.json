@@ -30,7 +30,7 @@
     "html-webpack-plugin": "^4.5.0",
     "mini-css-extract-plugin": "^1.1.1",
     "netlify-lambda": "^2.0.1",
-    "webpack": "^4.32.2",
+    "webpack": "^4.44.2",
     "webpack-cli": "^4.1.0",
 
     "webpack-dev-server": "^3.11.0"
