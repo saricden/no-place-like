@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "phaser": "^3.24.1"
   }
