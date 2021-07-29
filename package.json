@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --entry ./src/game.js --open",
     "build": "webpack --mode production --entry ./src/game.js --output-path ./dist",
-    "dev": "webpack --mode development --entry ./src/game.js --output-path ./dist",
+    "dev": "webpack --mode development --entry ./src/game.js --output-path ./dist"
   },
   "repository": {
     "type": "git",
