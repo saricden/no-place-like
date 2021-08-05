@@ -37,10 +37,14 @@ module.exports = {
       filename: "[name].css",
       chunkFilename: "[id].css"
     }),
-    new CopyWebpackPlugin([
-      { from: './src/assets', to: 'assets' }
-    ])
-  ],
+        new CopyWebpackPlugin(
+      { 
+        patterns: [
+          { from: './src/assets', to: 'assets' },
+          { from: 'src/yyy.ext', to: 'dist/yyy.ext' }
+        ]
+      }
+    ),    
   devServer: {
     compress: true,
 
