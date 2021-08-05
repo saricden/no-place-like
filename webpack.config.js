@@ -50,5 +50,4 @@ module.exports = {
 
     disableHostCheck: true,   // That solved it
 
-  }  
-};
+  };
