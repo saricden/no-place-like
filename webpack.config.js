@@ -40,8 +40,7 @@ module.exports = {
         new CopyWebpackPlugin(
       { 
         patterns: [
-          { from: './src/assets', to: 'assets' },
-          { from: 'src/yyy.ext', to: 'dist/yyy.ext' }
+          { from: './src/assets', to: 'assets' }
         ]
       }
     ),    
