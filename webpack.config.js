@@ -43,4 +43,4 @@ module.exports = {
           { from: './src/assets', to: 'assets' }
         ]
       }
-    );
+    )
