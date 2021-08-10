@@ -43,4 +43,9 @@ module.exports = {
           { from: './src/assets', to: 'assets' }
         ]
       }
-    )
+    ),
+  devServer: {
+    compress: true,
+    disableHostCheck: true,   // That solved it
+  }
+};
