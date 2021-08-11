@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="100" tileheight="100" infinite="0" nextlayerid="4" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="98" tileheight="98" infinite="0" nextlayerid="4" nextobjectid="1">
  <tileset firstgid="1" source="../images/tilemaps/Basic.tsx"/>
  <layer id="1" name="behind-mc" width="100" height="100" locked="1">
   <data encoding="csv">
