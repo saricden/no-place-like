@@ -82,7 +82,7 @@ class Level extends Scene {
     });
 
     // Add our maaaaaaap!
-    this.map = this.make.tilemap({ key: tilemapKey, tileWidth: 100, tileHeight: 100 });
+    this.map = this.make.tilemap({ key: tilemapKey, tileWidth: 98, tileHeight: 98 });
     const tileset = this.map.addTilesetImage(tilesetName, tilesetImage);
     
     // Map layers
