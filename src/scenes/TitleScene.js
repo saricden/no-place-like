@@ -81,7 +81,7 @@ class TitleScene extends Scene {
 
 
     // Start tweening
-    robot = this.tweens.add({
+    let robot = this.tweens.add({
       targets: robo,
       y: roboEndY,
       ease: 'Power1',
@@ -90,7 +90,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-    mist = this.tweens.add({
+    let mist = this.tweens.add({
       targets: mistImage,
       y: mistEndY,
       ease: 'Power1',
@@ -99,7 +99,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-   hill = this.tweens.add({
+   let hill = this.tweens.add({
       targets: hill1,
       y: hill1EndY,
       ease: 'Power1',
@@ -108,7 +108,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-    icon = this.tweens.add({
+    let icon = this.tweens.add({
       targets: logo,
       y: logoEndY,
       ease: 'Power1',
@@ -117,7 +117,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-    newgame = this.tweens.add({
+    let newgame = this.tweens.add({
       targets: newGameBtn,
       y: newGameBtnEndY,
       ease: 'Power1',
@@ -126,7 +126,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-    loadgame = this.tweens.add({
+    let loadgame = this.tweens.add({
       targets: loadGameBtn,
       y: loadGameBtnEndY,
       ease: 'Power1',
