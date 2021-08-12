@@ -145,7 +145,7 @@ class TitleScene extends Scene {
     };
     
     this.input.on("click", skipintro);
-    this.input.on("keydown", skipintro);
+    this.input.keyboard.on("keydown", skipintro);
     this.input.on("pointerdown", skipintro);
 
     // UI Functionality
