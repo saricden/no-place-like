@@ -142,7 +142,7 @@ class TitleScene extends Scene {
         icon.seek(1);
         newgame.seek(1);
         loadgame.seek(1);
-    });
+    };
     
     this.input.on("click", skipintro);
     this.input.on("keydown", skipintro);
