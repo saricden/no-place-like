@@ -135,7 +135,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
     
-    this.input.on('pointerdown', function () {
+    const skipintro = () => {
         robot.seek(1);
         mist.seek(1);
         hill.seek(1);
@@ -143,6 +143,10 @@ class TitleScene extends Scene {
         newgame.seek(1);
         loadgame.seek(1);
     });
+    
+    this.input.on("click", skipintro);
+    this.input.on("keydown", skipintro);
+    this.input.on("pointerdown", skipintro);
 
     // UI Functionality
     newGameBtn.setInteractive();
