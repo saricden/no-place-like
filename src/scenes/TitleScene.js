@@ -81,7 +81,7 @@ class TitleScene extends Scene {
 
 
     // Start tweening
-    this.tweens.add({
+    robot = this.tweens.add({
       targets: robo,
       y: roboEndY,
       ease: 'Power1',
@@ -90,7 +90,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-    this.tweens.add({
+    mist = this.tweens.add({
       targets: mistImage,
       y: mistEndY,
       ease: 'Power1',
@@ -99,7 +99,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-    this.tweens.add({
+   hill = this.tweens.add({
       targets: hill1,
       y: hill1EndY,
       ease: 'Power1',
@@ -108,7 +108,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-    this.tweens.add({
+    icon = this.tweens.add({
       targets: logo,
       y: logoEndY,
       ease: 'Power1',
@@ -117,7 +117,7 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-    this.tweens.add({
+    newgame = this.tweens.add({
       targets: newGameBtn,
       y: newGameBtnEndY,
       ease: 'Power1',
@@ -126,13 +126,22 @@ class TitleScene extends Scene {
       repeat: 0
     });
 
-    this.tweens.add({
+    loadgame = this.tweens.add({
       targets: loadGameBtn,
       y: loadGameBtnEndY,
       ease: 'Power1',
       duration: 15000,
       yoyo: false,
       repeat: 0
+    });
+    
+    this.input.on('pointerdown', function () {
+        robot.seek(1);
+        mist.seek(1);
+        hill.seek(1);
+        icon.seek(1);
+        newgame.seek(1);
+        loadgame.seek(1);
     });
 
     // UI Functionality
