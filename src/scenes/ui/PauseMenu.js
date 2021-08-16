@@ -34,6 +34,10 @@ class PauseMenu extends Scene {
     this.btnSystem.setInteractive();
     this.btnSystem.on('pointerdown', this.openSystemMenu, this);
 
+    this.btnParty.setInteractive();
+    this.btnParty.on('pointerdown', this.openPartyMenu, this);
+
+
     this.btnInventory.setInteractive();
     this.btnInventory.on('pointerdown', this.openInventoryMenu, this);
 
@@ -69,14 +73,22 @@ class PauseMenu extends Scene {
 
   openSystemMenu() {
     this.scene.manager.stop('ui-inventory-menu');
-    // this.scene.manager.stop('ui-inventory-menu');
+    this.scene.manager.stop('ui-party-menu');
 
     this.scene.launch('ui-system-menu');
+  }
+  
+    openPartyMenu() {
+    this.scene.manager.stop('ui-system-menu');
+    this.scene.manager.stop('ui-inventory-menu');
+
+    this.scene.launch('ui-party-menu');
   }
 
   openInventoryMenu() {
     this.scene.manager.stop('ui-system-menu');
-
+    this.scene.manager.stop('ui-party-menu');
+    
     this.scene.launch('ui-inventory-menu');
   }
 
