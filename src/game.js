@@ -13,6 +13,7 @@ import Level1 from './scenes/levels/Level1';
 import PauseMenu from './scenes/ui/PauseMenu';
 import SystemMenu from './scenes/ui/SystemMenu';
 import InventoryMenu from './scenes/ui/InventoryMenu';
+import PartyMenu from './scenes/ui/PartyMenu';
 
 const canvas = document.getElementById('game-canvas');
 const config = {
@@ -37,7 +38,8 @@ const config = {
     Level1,
     PauseMenu,
     SystemMenu,
-    InventoryMenu
+    InventoryMenu,
+    PartyMenu
   ],
   pixelArt: true
 };
