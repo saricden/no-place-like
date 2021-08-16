@@ -70,6 +70,11 @@ class PauseMenu extends Scene {
       repeat: 0
     });
   }
+  
+  this.menuBtn.on('pointerdown', function() {
+    this.scene.resume('Level');
+    this.scene.stop();
+})
 
   openSystemMenu() {
     this.scene.manager.stop('ui-inventory-menu');
