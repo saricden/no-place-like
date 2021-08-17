@@ -8,7 +8,6 @@ class Level extends Scene {
     // Set BG colour
     this.cameras.main.setBackgroundColor(bgColor);
     this.cameras.main.setRoundPixels(true); // seems to solve the janky lines ¯\_(ツ)_/¯
-    this.camera.roundPixels = true;
     
     // Enable multi-touch
     this.input.addPointer(2);
