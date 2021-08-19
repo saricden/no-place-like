@@ -12,3 +12,5 @@ class PartyMenu extends Scene {
     });
   }
 }
+
+export default PartyMenu;
