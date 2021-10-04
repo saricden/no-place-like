@@ -11,3 +11,9 @@ body {
 canvas {
   display: block;
 }
+
+.jsreq {
+color:white; 
+font-family:'Lucida Console'; 
+text-align: center;
+}
